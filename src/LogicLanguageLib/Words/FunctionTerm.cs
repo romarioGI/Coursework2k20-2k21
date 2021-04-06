@@ -33,13 +33,11 @@ namespace LogicLanguageLib.Words
             }
         }
 
-        //TODO test
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { return _terms.SelectMany(t => t.FreeObjectVariables).Distinct(); }
         }
 
-        //TODO test
         public override string ToString()
         {
             return $"{Function}({string.Join<ITerm>(",", _terms)})";

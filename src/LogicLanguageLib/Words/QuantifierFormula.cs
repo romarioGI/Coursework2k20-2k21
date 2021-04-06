@@ -22,8 +22,7 @@ namespace LogicLanguageLib.Words
         {
             get { yield return SubFormula; }
         }
-
-        //TODO test
+        
         public override IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { return SubFormula.FreeObjectVariables.Where(o => !o.Equals(ObjectVariable)); }

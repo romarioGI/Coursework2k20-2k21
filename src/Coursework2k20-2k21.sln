@@ -2,9 +2,25 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLanguageLib", "LogicLanguageLib\LogicLanguageLib.csproj", "{8B46CC29-F1C1-4B12-9CD1-BB17C17D5DDC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{07629BB3-7620-4097-9784-C602324DD3FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{59CD0B3B-E78F-4B98-83BB-38E9666B1C24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLanguageLibUnitTests", "LogicLanguageLibUnitTests\LogicLanguageLibUnitTests.csproj", "{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{59CD0B3B-E78F-4B98-83BB-38E9666B1C24} = {07629BB3-7620-4097-9784-C602324DD3FA}
+		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD} = {59CD0B3B-E78F-4B98-83BB-38E9666B1C24}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

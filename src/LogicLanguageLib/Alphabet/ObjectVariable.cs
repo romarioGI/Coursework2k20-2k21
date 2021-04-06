@@ -4,7 +4,7 @@ using LogicLanguageLib.Words;
 
 namespace LogicLanguageLib.Alphabet
 {
-    public sealed class ObjectVariable : Symbol, ITerm, IEquatable<ObjectVariable>
+    public sealed class ObjectVariable : Symbol, ITerm
     {
         public readonly char Char;
         public readonly uint? Index;
@@ -20,26 +20,9 @@ namespace LogicLanguageLib.Alphabet
 
         protected override string DefaultRepresentation => $"{Char}{(Index is null ? "" : $"_{Index}")}";
 
-        public bool Equals(ObjectVariable other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return base.Equals(other) && Char == other.Char && Index == other.Index;
-        }
-
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { yield return this; }
-        }
-
-        public override bool Equals(object obj)
-        {
-            return ReferenceEquals(this, obj) || obj is ObjectVariable other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(base.GetHashCode(), Char, Index);
         }
     }
 }

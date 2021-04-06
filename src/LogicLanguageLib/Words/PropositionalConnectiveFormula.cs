@@ -32,14 +32,12 @@ namespace LogicLanguageLib.Words
                     yield return formula;
             }
         }
-
-        //TODO test
+        
         public override IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { return _formulas.SelectMany(f => f.FreeObjectVariables).Distinct(); }
         }
-
-        //TODO test
+        
         public override string ToString()
         {
             return $"{Connective}({string.Join<Formula>(",", _formulas)})";

@@ -42,8 +42,7 @@ namespace LogicLanguageLib.Words
         {
             get { return _terms.SelectMany(t => t.FreeObjectVariables).Distinct(); }
         }
-
-        //TODO test
+        
         public override string ToString()
         {
             return
