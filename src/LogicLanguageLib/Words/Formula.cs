@@ -9,6 +9,7 @@ namespace LogicLanguageLib.Words
         public bool IsSentence => !FreeObjectVariables.Any();
 
         public abstract IEnumerable<Formula> SubFormulas { get; }
+
         public abstract IEnumerable<ObjectVariable> FreeObjectVariables { get; }
 
         public abstract override string ToString();
