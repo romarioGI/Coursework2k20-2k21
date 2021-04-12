@@ -2,7 +2,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Input
 {
-    public class Minus : Symbol
+    public sealed class Minus : Symbol
     {
         protected override string DefaultRepresentation => "-";
     }

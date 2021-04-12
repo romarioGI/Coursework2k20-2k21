@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLanguageLibUnitTests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOLanguageLib", "IOLanguageLib\IOLanguageLib.csproj", "{0C28DC87-BE0D-46BC-B898-CF786FCF746F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOLanguageLibTests", "IOLanguageLibTests\IOLanguageLibTests.csproj", "{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{59CD0B3B-E78F-4B98-83BB-38E9666B1C24} = {07629BB3-7620-4097-9784-C602324DD3FA}
 		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD} = {59CD0B3B-E78F-4B98-83BB-38E9666B1C24}
+		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A} = {59CD0B3B-E78F-4B98-83BB-38E9666B1C24}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9772AEB1-EF44-4B80-BCE7-B0A49A3EF1BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -30,5 +33,9 @@ Global
 		{0C28DC87-BE0D-46BC-B898-CF786FCF746F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8B46CC29-F1C1-4B12-9CD1-BB17C17D5DDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B46CC29-F1C1-4B12-9CD1-BB17C17D5DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -3,7 +3,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Input
 {
-    public class Letter : Symbol
+    public sealed class Letter : Symbol
     {
         public Letter(char c)
         {

@@ -33,19 +33,18 @@ namespace IOLanguageLib.Input
 
     public class PrefixTreeNode
     {
-        private static readonly EmptySymbol EmptySymbol = new();
         private readonly Dictionary<char, PrefixTreeNode> _children = new();
 
         public PrefixTreeNode()
         {
-            Symbol = EmptySymbol;
+            Symbol = null;
         }
 
         public IReadOnlyDictionary<char, PrefixTreeNode> Children => _children;
 
         public Symbol Symbol { get; set; }
 
-        public bool IsFinal => !Symbol.Equals(EmptySymbol);
+        public bool IsFinal => !(Symbol is null);
 
         public PrefixTreeNode Add(char c)
         {

@@ -2,10 +2,10 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Input
 {
-    //TODO test
     public static class TokensAutomatonFactory
     {
         private static readonly EmptySymbol EmptySymbol = new();
+        private static readonly ErrorSymbol ErrorSymbol = new();
         private static readonly ErrorState<char, Symbol> ErrorState = new(EmptySymbol);
 
         private static readonly State<char, Symbol> InitialState;
@@ -15,26 +15,29 @@ namespace IOLanguageLib.Input
         {
             var tokens = new (string, Symbol)[]
             {
-                ("\\lnot", new Negation()),
-                ("\\land", new Conjunction()),
-                ("\\lor", new Disjunction()),
-                ("\\to", new Implication()),
                 ("\\exists", new ExistentialQuantifier()),
                 ("\\forall", new UniversalQuantifier()),
-                ("\\over", new Division()),
-                ("\\cdot", new Multiplication()),
+                ("\\land", new Conjunction()),
+                ("\\lnot", new Negation()),
+                ("\\lor", new Disjunction()),
+                ("\\to", new Implication()),
                 ("<", new LessPredicate()),
                 (">", new MorePredicate()),
                 ("=", new EqualityPredicate()),
                 ("+", new Addition()),
                 ("-", new Minus()),
                 ("*", new Multiplication()),
+                ("\\cdot", new Multiplication()),
                 ("/", new Division()),
+                ("\\over", new Division()),
                 ("^", new Exponentiation()),
-                (" ", EmptySymbol)
+                (" ", new Space()),
+                ("_", new Underlining()),
+                ("(", new LeftBracket()),
+                (")", new RightBracket())
             };
             var prefixTree = new PrefixTree(tokens);
-            InitialState = new State<char, Symbol>(ErrorState, EmptySymbol);
+            InitialState = new State<char, Symbol>(ErrorState, ErrorSymbol);
             BuildState(InitialState, prefixTree.Root);
             AddLettersAndDigits();
         }
@@ -44,18 +47,20 @@ namespace IOLanguageLib.Input
             foreach (var (input, child) in node.Children)
             {
                 State<char, Symbol> nextState;
+                Symbol output;
 
-                if (node.IsFinal)
+                if (child.IsFinal)
                 {
                     nextState = InitialState;
+                    output = child.Symbol;
                 }
                 else
                 {
-                    nextState = new State<char, Symbol>(ErrorState, EmptySymbol);
+                    nextState = new State<char, Symbol>(ErrorState, ErrorSymbol);
                     BuildState(nextState, child);
+                    output = EmptySymbol;
                 }
 
-                var output = node.Symbol;
                 state.AddNext(input, nextState, output);
             }
         }
