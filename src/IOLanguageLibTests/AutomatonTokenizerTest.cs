@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using IOLanguageLib.Exceptions;
 using IOLanguageLib.Input;
 using LogicLanguageLib.Alphabet;
 using Xunit;
@@ -8,7 +10,7 @@ namespace IOLanguageLibTests
 {
     public class AutomatonTokenizerTest
     {
-        public static IEnumerable<object[]> TestData =>
+        public static IEnumerable<object[]> CorrectTestData =>
             new List<object[]>
             {
                 new object[]
@@ -40,7 +42,8 @@ namespace IOLanguageLibTests
                         new Letter('x'), new Underlining(), new Digit('0'), new Space(), new Multiplication(),
                         new Space(), new Letter('x'), new Underlining(), new Digit('1'), new Space(), new Addition(),
                         new Space(), new Letter('a'), new Space(), new Division(), new Space(), new Digit('1'),
-                        new Space(), new Minus(), new Space(), new Digit('5'), new Space(), new MorePredicate(), new Space(), new Digit('1'),
+                        new Space(), new Minus(), new Space(), new Digit('5'), new Space(), new MorePredicate(),
+                        new Space(), new Digit('1'),
                         new Digit('2'), new Digit('3'), new Space(), new Conjunction(), new Space(), new LeftBracket(),
                         new Negation(), new Space(), new Letter('x'), new Underlining(), new Digit('0'), new Space(),
                         new MorePredicate(), new Space(), new Letter('x'), new Underlining(), new Digit('1'),
@@ -54,14 +57,55 @@ namespace IOLanguageLibTests
                 }
             };
 
+        public static IEnumerable<object[]> UnexpectedEndOfInputTestData =>
+            new List<object[]>
+            {
+                new object[]
+                {
+                    "\\"
+                },
+                new object[]
+                {
+                    "\\foral"
+                },
+                new object[]
+                {
+                    "\\l"
+                }
+            };
+
         [Theory]
-        [MemberData(nameof(TestData))]
+        [MemberData(nameof(CorrectTestData))]
         public void AutomatonTokenizer_CorrectInput(string input, IEnumerable<Symbol> expected)
         {
             var tokenizer = new AutomatonTokenizer();
             var actual = tokenizer.Tokenize(input);
 
             Assert.Equal(expected.ToArray(), actual.ToArray());
+        }
+
+        [Theory]
+        [MemberData(nameof(UnexpectedEndOfInputTestData))]
+        public void AutomatonTokenizer_UnexpectedEndOfInput(string input)
+        {
+            var tokenizer = new AutomatonTokenizer();
+            var action = new Action(() => tokenizer.Tokenize(input).ToArray());
+
+            Assert.Throws<UnexpectedEndOfInput>(action);
+        }
+
+        [Theory]
+        [InlineData("%", 0)]
+        [InlineData("\\Forall", 1)]
+        [InlineData("\\exist x_0", 6)]
+        public void AutomatonTokenizer_UnexpectedCharacter(string input, int expectedIndexOfError)
+        {
+            var tokenizer = new AutomatonTokenizer();
+            var action = new Action(() => tokenizer.Tokenize(input).ToArray());
+
+            var exception = Assert.Throws<UnexpectedCharacter>(action);
+
+            Assert.Equal(expectedIndexOfError, exception.IndexOfError);
         }
     }
 }
