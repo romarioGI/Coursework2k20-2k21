@@ -8,7 +8,7 @@ namespace IOLanguageLib.Tokenizing
     {
         private static readonly EmptySymbol EmptySymbol = new();
         private static readonly ErrorSymbol ErrorSymbol = new();
-        private static readonly ErrorState<char, Symbol> ErrorState = new(EmptySymbol);
+        private static readonly ErrorState ErrorState = new();
 
         private static readonly State<char, Symbol> InitialState;
 

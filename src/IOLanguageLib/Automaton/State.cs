@@ -5,10 +5,10 @@ namespace IOLanguageLib.Automaton
     public class State<TIn, TOut> : IState<TIn, TOut>
     {
         private readonly TOut _errorOutput;
-        private readonly ErrorState<TIn, TOut> _errorState;
+        private readonly IState<TIn, TOut> _errorState;
         private readonly IDictionary<TIn, (IState<TIn, TOut>, TOut)> _next;
 
-        public State(ErrorState<TIn, TOut> errorState, TOut errorOutput)
+        public State(IState<TIn, TOut> errorState, TOut errorOutput)
         {
             _next = new Dictionary<TIn, (IState<TIn, TOut>, TOut)>();
             _errorState = errorState;

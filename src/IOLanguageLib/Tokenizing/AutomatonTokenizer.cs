@@ -14,8 +14,7 @@ namespace IOLanguageLib.Tokenizing
         public IEnumerable<Symbol> Tokenize(string input)
         {
             var result = _tokensAutomaton.Run(input)
-                .Select(ThrowIfError)
-                .Where(IsNotEmpty);
+                .Select(ThrowIfError);
 
             foreach (var symbol in result)
                 yield return symbol;
@@ -23,11 +22,6 @@ namespace IOLanguageLib.Tokenizing
             if (!_tokensAutomaton.InFinalState)
                 throw new UnexpectedEndOfInput();
             _tokensAutomaton.Reset();
-        }
-
-        private static bool IsNotEmpty(Symbol symbol)
-        {
-            return !(symbol is EmptySymbol);
         }
 
         private static Symbol ThrowIfError(Symbol symbol, int index)
