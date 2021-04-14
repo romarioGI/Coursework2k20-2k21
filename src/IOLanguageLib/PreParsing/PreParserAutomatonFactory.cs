@@ -8,12 +8,10 @@ namespace IOLanguageLib.PreParsing
     {
         internal static readonly EmptySymbol EmptySymbol = new();
         internal static readonly ErrorSymbol ErrorSymbol = new();
-        internal static readonly BetweenPreParsingStateSymbol BetweenPreParsingStateSymbol = new();
         internal static readonly ErrorState ErrorState = new();
         internal static readonly InitialState InitialState = new();
         internal static readonly IndividualConstantState IndividualConstantState = new();
         internal static readonly ObjectVariableState ObjectVariableState = new();
-        internal static readonly MinusState MinusState = new();
 
         public static ContextAutomaton<PreParsingContext, Symbol> GetInstance()
         {

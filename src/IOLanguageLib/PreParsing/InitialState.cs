@@ -9,26 +9,50 @@ namespace IOLanguageLib.PreParsing
         public (IState<PreParsingContext, Symbol>, Symbol) Next(PreParsingContext input)
         {
             var currentSymbol = input.CurrentSymbol;
+            IState<PreParsingContext, Symbol> nextState;
+            Symbol output;
             switch (currentSymbol)
             {
                 case Digit:
-                    return (PreParserAutomatonFactory.IndividualConstantState,
-                        PreParserAutomatonFactory.BetweenPreParsingStateSymbol);
+                    nextState = PreParserAutomatonFactory.IndividualConstantState;
+                    output = PreParserAutomatonFactory.EmptySymbol;
+                    break;
+
+                case EmptySymbol:
+                    nextState = PreParserAutomatonFactory.ErrorState;
+                    output = PreParserAutomatonFactory.ErrorSymbol;
+                    break;
+
+                case ErrorSymbol:
+                    nextState = PreParserAutomatonFactory.ErrorState;
+                    output = PreParserAutomatonFactory.ErrorSymbol;
+                    break;
+
                 case Letter:
-                    return (PreParserAutomatonFactory.ObjectVariableState,
-                        PreParserAutomatonFactory.BetweenPreParsingStateSymbol);
-                case Minus:
-                    return (PreParserAutomatonFactory.MinusState, PreParserAutomatonFactory.EmptySymbol);
+                    nextState = PreParserAutomatonFactory.ObjectVariableState;
+                    output = PreParserAutomatonFactory.EmptySymbol;
+                    break;
+
                 case Space:
                     input.GoRight();
-                    return (this, PreParserAutomatonFactory.EmptySymbol);
+                    nextState = this;
+                    output = PreParserAutomatonFactory.EmptySymbol;
+                    break;
+
                 case Underlining:
                     input.GoRight();
-                    return (PreParserAutomatonFactory.ErrorState, PreParserAutomatonFactory.ErrorSymbol);
+                    nextState = PreParserAutomatonFactory.ErrorState;
+                    output = PreParserAutomatonFactory.ErrorSymbol;
+                    break;
+
                 default:
                     input.GoRight();
-                    return (this, currentSymbol);
+                    nextState = this;
+                    output = currentSymbol;
+                    break;
             }
+
+            return (nextState, output);
         }
     }
 }

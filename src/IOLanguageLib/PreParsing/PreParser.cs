@@ -3,6 +3,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.PreParsing
 {
+    //TODO tests
     public abstract class PreParser
     {
         public IEnumerable<Symbol> Do(IEnumerable<Symbol> input)

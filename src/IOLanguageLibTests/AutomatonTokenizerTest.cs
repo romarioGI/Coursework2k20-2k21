@@ -75,17 +75,12 @@ namespace IOLanguageLibTests
                 }
             };
 
-        private static bool IsNotEmptySymbol(Symbol symbol)
-        {
-            return !(symbol is EmptySymbol);
-        }
-
         [Theory]
         [MemberData(nameof(CorrectTestData))]
         public void AutomatonTokenizer_CorrectInput(string input, IEnumerable<Symbol> expected)
         {
             var tokenizer = new AutomatonTokenizer();
-            var actual = tokenizer.Tokenize(input).Where(IsNotEmptySymbol);
+            var actual = tokenizer.Tokenize(input);
 
             Assert.Equal(expected.ToArray(), actual.ToArray());
         }
@@ -95,7 +90,7 @@ namespace IOLanguageLibTests
         public void AutomatonTokenizer_UnexpectedEndOfInput(string input)
         {
             var tokenizer = new AutomatonTokenizer();
-            var action = new Action(() => tokenizer.Tokenize(input).Where(IsNotEmptySymbol).ToArray());
+            var action = new Action(() => tokenizer.Tokenize(input).ToArray());
 
             Assert.Throws<UnexpectedEndOfInput>(action);
         }
@@ -107,7 +102,7 @@ namespace IOLanguageLibTests
         public void AutomatonTokenizer_UnexpectedCharacter(string input, int expectedIndexOfError)
         {
             var tokenizer = new AutomatonTokenizer();
-            var action = new Action(() => tokenizer.Tokenize(input).Where(IsNotEmptySymbol).ToArray());
+            var action = new Action(() => tokenizer.Tokenize(input).ToArray());
 
             var exception = Assert.Throws<UnexpectedCharacter>(action);
 
