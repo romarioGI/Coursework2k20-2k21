@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Automaton
 {
     public class State<TIn, TOut> : IState<TIn, TOut>
     {

@@ -1,4 +1,4 @@
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Automaton
 {
     public class ErrorState<TIn, TOut> : IState<TIn, TOut>
     {

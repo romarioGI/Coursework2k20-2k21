@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Automaton
 {
     public class Automaton<TIn, TOut>
     {

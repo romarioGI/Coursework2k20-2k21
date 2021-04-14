@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
-using IOLanguageLib.Input;
+using IOLanguageLib.Tokenizing;
 using LogicLanguageLib.Alphabet;
 using Xunit;
 

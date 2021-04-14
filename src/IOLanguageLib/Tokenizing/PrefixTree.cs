@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Tokenizing
 {
     public class PrefixTree
     {

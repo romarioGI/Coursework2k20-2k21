@@ -1,7 +1,7 @@
 using System;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Alphabet
 {
     public sealed class Letter : Symbol
     {

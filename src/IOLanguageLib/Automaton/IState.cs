@@ -1,4 +1,4 @@
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Automaton
 {
     public interface IState<TIn, TOut>
     {

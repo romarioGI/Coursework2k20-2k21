@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Tokenizing
 {
     public interface ITokenizer
     {

@@ -1,6 +1,8 @@
+using IOLanguageLib.Alphabet;
+using IOLanguageLib.Automaton;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Tokenizing
 {
     public static class TokensAutomatonFactory
     {

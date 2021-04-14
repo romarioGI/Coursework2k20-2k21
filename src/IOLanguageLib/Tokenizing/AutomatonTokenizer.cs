@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
+using IOLanguageLib.Alphabet;
+using IOLanguageLib.Automaton;
 using IOLanguageLib.Exceptions;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Input
+namespace IOLanguageLib.Tokenizing
 {
     public class AutomatonTokenizer : ITokenizer
     {
