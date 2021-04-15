@@ -5,7 +5,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Tokenizing
 {
-    public class PrefixTree
+    internal class PrefixTree
     {
         public readonly PrefixTreeNode Root;
 

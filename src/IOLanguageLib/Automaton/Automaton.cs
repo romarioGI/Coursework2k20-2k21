@@ -3,15 +3,34 @@ using System.Linq;
 
 namespace IOLanguageLib.Automaton
 {
-    public class Automaton<TIn, TOut>: AbstractAutomaton<TIn, TOut>
+    public class Automaton<TIn, TOut>
     {
-        public Automaton(IState<TIn, TOut> initialState, IEnumerable<IState<TIn, TOut>> finalStates) : base(initialState, finalStates)
+        public Automaton(IState<TIn, TOut> initialState, IEnumerable<IState<TIn, TOut>> finalStates)
         {
+            InitialState = initialState;
+            CurrentState = InitialState;
+            FinalStates = finalStates.ToHashSet();
         }
 
-        public IEnumerable<TOut> Run(IEnumerable<TIn> input)
+        private IState<TIn, TOut> InitialState { get; }
+
+        private IState<TIn, TOut> CurrentState { get; set; }
+
+        private IEnumerable<IState<TIn, TOut>> FinalStates { get; }
+
+        public bool InFinalState => FinalStates.Contains(CurrentState);
+
+        public void Reset()
         {
-            return input.Select(Step);
+            CurrentState = InitialState;
+        }
+
+        public TOut Next(TIn input)
+        {
+            var (nextState, output) = CurrentState.Next(input);
+            CurrentState = nextState;
+
+            return output;
         }
     }
 }

@@ -1,21 +1,29 @@
+using System.Collections.Generic;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Automaton;
 using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Tokenizing
 {
-    public static class TokensAutomatonFactory
+    internal static class TokensAutomatonFactory
     {
         private static readonly EmptySymbol EmptySymbol = new();
         private static readonly ErrorSymbol ErrorSymbol = new();
         private static readonly ErrorState ErrorState = new();
 
         private static readonly State<char, Symbol> InitialState;
-
-        /// No word should be the beginning (prefix) of another.
+        
         static TokensAutomatonFactory()
         {
-            var tokens = new (string, Symbol)[]
+            var tokens = GetTokens();
+            var prefixTree = new PrefixTree(tokens);
+            InitialState = BuildInitialState(prefixTree);
+        }
+
+        /// No word should be the beginning (prefix) of another.
+        private static IEnumerable<(string, Symbol)> GetTokens()
+        {
+            var tokens = new List<(string, Symbol)>
             {
                 ("\\exists", new ExistentialQuantifier()),
                 ("\\forall", new UniversalQuantifier()),
@@ -38,10 +46,21 @@ namespace IOLanguageLib.Tokenizing
                 ("(", new LeftBracket()),
                 (")", new RightBracket())
             };
-            var prefixTree = new PrefixTree(tokens);
-            InitialState = new State<char, Symbol>(ErrorState, ErrorSymbol);
-            BuildState(InitialState, prefixTree.Root);
-            AddLettersAndDigits();
+
+            for (var c = 'a'; c <= 'z'; c++)
+                tokens.Add((c.ToString(), new Letter(c)));
+            for (var c = '0'; c <= '9'; c++)
+                tokens.Add((c.ToString(), new Digit(c)));
+
+            return tokens;
+        }
+
+        private static State<char, Symbol> BuildInitialState(PrefixTree prefixTree)
+        {
+            var initialState = new State<char, Symbol>(ErrorState, ErrorSymbol);
+            BuildState(initialState, prefixTree.Root);
+
+            return initialState;
         }
 
         private static void BuildState(State<char, Symbol> state, PrefixTreeNode node)
@@ -59,20 +78,13 @@ namespace IOLanguageLib.Tokenizing
                 else
                 {
                     nextState = new State<char, Symbol>(ErrorState, ErrorSymbol);
-                    BuildState(nextState, child);
                     output = EmptySymbol;
+
+                    BuildState(nextState, child);
                 }
 
                 state.AddNext(input, nextState, output);
             }
-        }
-
-        private static void AddLettersAndDigits()
-        {
-            for (var c = 'a'; c <= 'z'; c++)
-                InitialState.AddNext(c, InitialState, new Letter(c));
-            for (var c = '0'; c <= '9'; c++)
-                InitialState.AddNext(c, InitialState, new Digit(c));
         }
 
         public static Automaton<char, Symbol> GetInstance()

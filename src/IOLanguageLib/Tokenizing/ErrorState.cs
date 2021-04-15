@@ -4,7 +4,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Tokenizing
 {
-    public class ErrorState : IState<char, Symbol>
+    internal class ErrorState : IState<char, Symbol>
     {
         private static readonly EmptySymbol EmptySymbol = new();
 

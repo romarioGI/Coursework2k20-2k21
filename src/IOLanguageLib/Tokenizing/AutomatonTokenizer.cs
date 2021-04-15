@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using IOLanguageLib.Alphabet;
@@ -13,21 +14,24 @@ namespace IOLanguageLib.Tokenizing
 
         public IEnumerable<Symbol> Tokenize(string input)
         {
-            var result = _tokensAutomaton.Run(input)
+            return input
+                .Select(ToSymbol)
                 .Select(ThrowIfError)
-                .Where(IsNotEmptySymbol);
-
-            foreach (var symbol in result)
-                yield return symbol;
-
-            if (!_tokensAutomaton.InFinalState)
-                throw new UnexpectedEndOfInput();
-            _tokensAutomaton.Reset();
+                .Where(IsNotEmptySymbol)
+                .Finally(ThrowIfNotInFinalState)
+                .Finally(ResetAutomaton);
         }
 
-        private static bool IsNotEmptySymbol(Symbol symbol)
+        private Symbol ToSymbol(char c)
         {
-            return !(symbol is EmptySymbol);
+            try
+            {
+                return _tokensAutomaton.Next(c);
+            }
+            catch (Exception e)
+            {
+                throw new TokenizingException("Other error.", e);
+            }
         }
 
         private static Symbol ThrowIfError(Symbol symbol, int index)
@@ -36,6 +40,22 @@ namespace IOLanguageLib.Tokenizing
                 throw new UnexpectedCharacter(index);
 
             return symbol;
+        }
+
+        private static bool IsNotEmptySymbol(Symbol symbol)
+        {
+            return !(symbol is EmptySymbol);
+        }
+
+        private void ThrowIfNotInFinalState()
+        {
+            if (!_tokensAutomaton.InFinalState)
+                throw new UnexpectedEndOfInput();
+        }
+
+        private void ResetAutomaton()
+        {
+            _tokensAutomaton.Reset();
         }
     }
 }
