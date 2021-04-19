@@ -1,7 +1,9 @@
 ﻿namespace LogicLanguageLib.Alphabet
 {
-    public sealed class Conjunction : Symbol, IBinaryPropositionalConnective
+    public sealed class Conjunction : Symbol, IPropositionalConnective
     {
         protected override string DefaultRepresentation => "&";
+
+        public byte Arity => 2;
     }
 }

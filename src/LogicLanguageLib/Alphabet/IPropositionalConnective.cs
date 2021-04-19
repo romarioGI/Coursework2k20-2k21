@@ -1,7 +1,6 @@
 ﻿namespace LogicLanguageLib.Alphabet
 {
-    public interface IPropositionalConnective
+    public interface IPropositionalConnective : IArity
     {
-        public byte Arity { get; }
     }
 }

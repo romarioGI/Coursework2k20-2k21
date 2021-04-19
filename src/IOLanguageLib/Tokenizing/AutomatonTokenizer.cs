@@ -22,6 +22,7 @@ namespace IOLanguageLib.Tokenizing
                 .Finally(ResetAutomaton);
         }
 
+        //TODO exceptions
         private Symbol ToSymbol(char c)
         {
             try

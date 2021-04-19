@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.PreParsing
 {
-    //TODO test
-    public class OrderPreParser : AbstractPreParser
+    public class ReversePolishNotationPreParser: AbstractPreParser
     {
         protected override IEnumerable<Symbol> PreParse(PreParsingContext context)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }

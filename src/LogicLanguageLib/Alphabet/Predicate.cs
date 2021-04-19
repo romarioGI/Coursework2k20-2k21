@@ -2,21 +2,21 @@
 
 namespace LogicLanguageLib.Alphabet
 {
-    public class Predicate : Symbol
+    public class Predicate : Symbol, IArity
     {
-        public readonly byte Arity;
+        private readonly string _name;
 
-        public readonly string Name;
-
-        public Predicate(string name, byte arity)
+        protected Predicate(string name, byte arity)
         {
             Arity = arity;
 
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Predicate name must not be null or empty");
-            Name = name;
+            _name = name;
         }
 
-        protected override string DefaultRepresentation => $"p_{Name}_{Arity}";
+        protected override string DefaultRepresentation => $"p_{_name}_{Arity}";
+
+        public byte Arity { get; }
     }
 }

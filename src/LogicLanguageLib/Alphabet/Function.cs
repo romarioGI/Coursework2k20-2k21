@@ -2,21 +2,21 @@
 
 namespace LogicLanguageLib.Alphabet
 {
-    public abstract class Function : Symbol
+    public abstract class Function : Symbol, IArity
     {
-        public readonly byte Arity;
+        private readonly string _name;
 
-        public readonly string Name;
-
-        public Function(string name, byte arity)
+        protected Function(string name, byte arity)
         {
             Arity = arity;
 
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Function name must not be null or empty");
-            Name = name;
+            _name = name;
         }
 
-        protected override string DefaultRepresentation => $"f_{Name}_{Arity}";
+        protected override string DefaultRepresentation => $"f_{_name}_{Arity}";
+
+        public byte Arity { get; }
     }
 }

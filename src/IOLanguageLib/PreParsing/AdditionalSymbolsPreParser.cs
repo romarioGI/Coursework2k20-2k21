@@ -8,19 +8,21 @@ using LogicLanguageLib.Alphabet;
 namespace IOLanguageLib.PreParsing
 {
     //TODO test
-    //TODO переменная в конце строки
+    //TODO тест: переменная в конце строки
+    //TODO тесты на все ошибки
     public class AdditionalSymbolsPreParser : AbstractPreParser
     {
-        protected override IEnumerable<Symbol> Do(PreParsingContext context)
+        protected override IEnumerable<Symbol> PreParse(PreParsingContext context)
         {
             while (context.GoRight())
             {
                 var symbol = GetSymbol(context.CurrentSymbol, context);
-                if (!(symbol is Space))
+                if (symbol is not Space)
                     yield return symbol;
             }
         }
 
+        //TODO
         private static Symbol GetSymbol(Symbol currentSymbol, PreParsingContext context)
         {
             try

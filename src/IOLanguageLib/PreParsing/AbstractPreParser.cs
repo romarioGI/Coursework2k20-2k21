@@ -5,13 +5,13 @@ namespace IOLanguageLib.PreParsing
 {
     public abstract class AbstractPreParser
     {
-        public IEnumerable<Symbol> Do(IEnumerable<Symbol> input)
+        public IEnumerable<Symbol> PreParse(IEnumerable<Symbol> input)
         {
             var context = new PreParsingContext(input);
 
-            return Do(context);
+            return PreParse(context);
         }
 
-        protected abstract IEnumerable<Symbol> Do(PreParsingContext context);
+        protected abstract IEnumerable<Symbol> PreParse(PreParsingContext context);
     }
 }

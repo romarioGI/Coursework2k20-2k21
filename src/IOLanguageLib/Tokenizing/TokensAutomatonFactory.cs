@@ -12,12 +12,13 @@ namespace IOLanguageLib.Tokenizing
         private static readonly ErrorState ErrorState = new();
 
         private static readonly State<char, Symbol> InitialState;
-        
+
         static TokensAutomatonFactory()
         {
             var tokens = GetTokens();
             var prefixTree = new PrefixTree(tokens);
-            InitialState = BuildInitialState(prefixTree);
+            InitialState = new State<char, Symbol>(ErrorState, ErrorSymbol);
+            BuildState(InitialState, prefixTree.Root);
         }
 
         /// No word should be the beginning (prefix) of another.
@@ -53,14 +54,6 @@ namespace IOLanguageLib.Tokenizing
                 tokens.Add((c.ToString(), new Digit(c)));
 
             return tokens;
-        }
-
-        private static State<char, Symbol> BuildInitialState(PrefixTree prefixTree)
-        {
-            var initialState = new State<char, Symbol>(ErrorState, ErrorSymbol);
-            BuildState(initialState, prefixTree.Root);
-
-            return initialState;
         }
 
         private static void BuildState(State<char, Symbol> state, PrefixTreeNode node)
