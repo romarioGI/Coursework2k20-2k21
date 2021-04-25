@@ -2,16 +2,16 @@ using System;
 
 namespace IOLanguageLib.Exceptions
 {
-    public class UnexpectedCharacter : InputException
+    public class UnexpectedCharacter : IndexedInputException
     {
         public UnexpectedCharacter(int indexOfError, string message = null, Exception inner = null)
-            : base(indexOfError, GetMessage(indexOfError, message), inner)
+            : base(indexOfError, GetMessage(message), inner)
         {
         }
 
-        private static string GetMessage(int indexOfError, string message)
+        private static string GetMessage(string message)
         {
-            var result = $"Unexpected character with index {indexOfError}.";
+            var result = $"Unexpected character.";
 
             if (message is not null)
                 result = $"{result} {message}";

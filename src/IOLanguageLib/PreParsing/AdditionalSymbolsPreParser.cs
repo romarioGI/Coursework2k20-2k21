@@ -40,7 +40,7 @@ namespace IOLanguageLib.PreParsing
             }
             catch (Exception e)
             {
-                throw new InputException(context.Index, "Other exception.", e);
+                throw new IndexedInputException(context.Index, "Other exception.", e);
             }
         }
 

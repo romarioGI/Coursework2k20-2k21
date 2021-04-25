@@ -30,7 +30,7 @@ namespace IOLanguageLib.Tokenizing
             }
             catch (Exception e)
             {
-                throw new InputException(index, "Other error.", e);
+                throw new IndexedInputException(index, "Other error.", e);
             }
         }
 
