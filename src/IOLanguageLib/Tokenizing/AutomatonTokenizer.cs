@@ -22,8 +22,7 @@ namespace IOLanguageLib.Tokenizing
                 .Finally(ResetAutomaton);
         }
 
-        //TODO exceptions
-        private Symbol ToSymbol(char c)
+        private Symbol ToSymbol(char c, int index)
         {
             try
             {
@@ -31,7 +30,7 @@ namespace IOLanguageLib.Tokenizing
             }
             catch (Exception e)
             {
-                throw new TokenizingException("Other error.", e);
+                throw new InputException(index, "Other error.", e);
             }
         }
 

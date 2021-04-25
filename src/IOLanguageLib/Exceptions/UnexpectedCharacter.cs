@@ -2,19 +2,21 @@ using System;
 
 namespace IOLanguageLib.Exceptions
 {
-    public class UnexpectedCharacter: TokenizingException
+    public class UnexpectedCharacter : InputException
     {
-        public readonly int IndexOfError;
-
-        public UnexpectedCharacter(int indexOfError, Exception inner = null)
-            : base(GetMessage(indexOfError), inner)
+        public UnexpectedCharacter(int indexOfError, string message = null, Exception inner = null)
+            : base(indexOfError, GetMessage(indexOfError, message), inner)
         {
-            IndexOfError = indexOfError;
         }
 
-        private static string GetMessage(int indexOfError)
+        private static string GetMessage(int indexOfError, string message)
         {
-            return $"Unexpected character with index {indexOfError}.";
+            var result = $"Unexpected character with index {indexOfError}.";
+
+            if (message is not null)
+                result = $"{result} {message}";
+
+            return result;
         }
     }
 }

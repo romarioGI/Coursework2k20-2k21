@@ -22,7 +22,6 @@ namespace IOLanguageLib.PreParsing
             }
         }
 
-        //TODO
         private static Symbol GetSymbol(Symbol currentSymbol, PreParsingContext context)
         {
             try
@@ -31,20 +30,20 @@ namespace IOLanguageLib.PreParsing
                 {
                     Digit => GetIndividualConstant(context),
                     Letter letter => GetObjectVariable(letter, context),
-                    EmptySymbol => throw new PreParsingException("Unexpected symbol.", context.Index),
-                    ErrorSymbol => throw new PreParsingException("Unexpected symbol.", context.Index),
-                    Underlining => throw new PreParsingException("Unexpected symbol.", context.Index),
+                    EmptySymbol => throw new UnexpectedCharacter(context.Index),
+                    ErrorSymbol => throw new UnexpectedCharacter(context.Index),
+                    Underlining => throw new UnexpectedCharacter(context.Index),
                     null => throw new ArgumentNullException(nameof(currentSymbol)),
                     _ => currentSymbol
                 };
             }
-            catch (PreParsingException)
+            catch (InputException)
             {
                 throw;
             }
             catch (Exception e)
             {
-                throw new PreParsingException("Other exception.", context.Index, e);
+                throw new InputException(context.Index, "Other exception.", e);
             }
         }
 
@@ -56,10 +55,10 @@ namespace IOLanguageLib.PreParsing
         private static BigInteger GetInteger(PreParsingContext context)
         {
             if (context.CurrentSymbol is not Digit)
-                throw new PreParsingException("Expected digit.", context.Index);
+                throw new UnexpectedCharacter(context.Index, "Expected digit.");
 
             var digit = context.CurrentSymbol as Digit;
-            
+
             var integer = new BigInteger(digit);
             while (context.NextSymbol is Digit)
             {
@@ -73,19 +72,18 @@ namespace IOLanguageLib.PreParsing
 
         private static ObjectVariable GetObjectVariable(Letter letter, PreParsingContext context)
         {
-            if (context.NextSymbol is not Underlining) 
+            if (context.NextSymbol is not Underlining)
                 return new ObjectVariable(letter);
-            
+
             if (!context.GoRight() || !context.GoRight())
-                throw new PreParsingException("Expected index of variable after underlining.", context.Index);
+                throw new UnexpectedCharacter(context.Index, "Expected index of variable after underlining.");
 
             var integer = GetInteger(context);
 
             if (integer > uint.MaxValue)
-                throw new PreParsingException($"Index should be no more then {uint.MaxValue}", context.Index);
+                throw new UnexpectedCharacter(context.Index, $"Index should be no more then {uint.MaxValue}");
 
             return new ObjectVariable(letter, (uint) integer);
-
         }
     }
 }
