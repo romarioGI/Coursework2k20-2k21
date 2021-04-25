@@ -7,9 +7,6 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.PreParsing
 {
-    //TODO test
-    //TODO тест: переменная в конце строки
-    //TODO тесты на все ошибки
     public class AdditionalSymbolsPreParser : AbstractPreParser
     {
         protected override IEnumerable<Symbol> PreParse(PreParsingContext context)

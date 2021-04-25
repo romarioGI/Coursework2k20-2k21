@@ -31,7 +31,7 @@ namespace IOLanguageLib.PreParsing
             CurrentSymbol = NextSymbol;
             NextSymbol = Next();
 
-            return CurrentSymbol is null;
+            return CurrentSymbol is not null;
         }
 
         private Symbol Next()
