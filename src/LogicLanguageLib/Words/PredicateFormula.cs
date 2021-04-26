@@ -24,14 +24,7 @@ namespace LogicLanguageLib.Words
             _terms = terms;
         }
 
-        public IEnumerable<ITerm> Terms
-        {
-            get
-            {
-                foreach (var term in _terms)
-                    yield return term;
-            }
-        }
+        public IEnumerable<ITerm> Terms => _terms;
 
         public override IEnumerable<Formula> SubFormulas
         {
@@ -42,7 +35,7 @@ namespace LogicLanguageLib.Words
         {
             get { return _terms.SelectMany(t => t.FreeObjectVariables).Distinct(); }
         }
-        
+
         public override string ToString()
         {
             return

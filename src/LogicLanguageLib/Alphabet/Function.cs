@@ -1,8 +1,9 @@
 ﻿using System;
+using LogicLanguageLib.Words;
 
 namespace LogicLanguageLib.Alphabet
 {
-    public abstract class Function : Symbol, IArity
+    public abstract class Function : Symbol, IOperator
     {
         private readonly string _name;
 

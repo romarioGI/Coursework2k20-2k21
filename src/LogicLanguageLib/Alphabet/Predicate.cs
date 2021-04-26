@@ -1,8 +1,9 @@
 ﻿using System;
+using LogicLanguageLib.Words;
 
 namespace LogicLanguageLib.Alphabet
 {
-    public class Predicate : Symbol, IArity
+    public class Predicate : Symbol, IOperator
     {
         private readonly string _name;
 

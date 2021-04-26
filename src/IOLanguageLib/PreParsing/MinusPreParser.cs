@@ -4,6 +4,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.PreParsing
 {
+    //TODO tests
     public class MinusPreParser: AbstractPreParser
     {
         protected override IEnumerable<Symbol> PreParse(PreParsingContext context)

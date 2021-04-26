@@ -1,6 +1,8 @@
+using LogicLanguageLib.Words;
+
 namespace LogicLanguageLib.Alphabet
 {
-    public interface IQuantifier
+    public interface IQuantifier: IOperator
     {
     }
 }

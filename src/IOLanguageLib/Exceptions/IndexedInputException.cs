@@ -5,8 +5,8 @@ namespace IOLanguageLib.Exceptions
     public class IndexedInputException : InputException
     {
         public readonly int IndexOfError;
-        
-        public IndexedInputException(int indexOfError, string message, Exception inner) : base(
+
+        public IndexedInputException(int indexOfError, string message, Exception inner = null) : base(
             GetMessage(indexOfError, message), inner)
         {
             IndexOfError = indexOfError;

@@ -1,6 +1,8 @@
-﻿namespace LogicLanguageLib.Alphabet
+﻿using LogicLanguageLib.Words;
+
+namespace LogicLanguageLib.Alphabet
 {
-    public interface IPropositionalConnective : IArity
+    public interface IPropositionalConnective : IOperator
     {
     }
 }
