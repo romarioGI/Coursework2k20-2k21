@@ -37,7 +37,7 @@ namespace IOLanguageLib.Tokenizing
         private static Symbol ThrowIfError(Symbol symbol, int index)
         {
             if (symbol is ErrorSymbol)
-                throw new UnexpectedCharacter(index);
+                throw new UnexpectedSymbol(index);
 
             return symbol;
         }

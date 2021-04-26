@@ -104,7 +104,7 @@ namespace IOLanguageLibTests
             var tokenizer = new AutomatonTokenizer();
             var action = new Action(() => tokenizer.Tokenize(input).ToArray());
 
-            var exception = Assert.Throws<UnexpectedCharacter>(action);
+            var exception = Assert.Throws<UnexpectedSymbol>(action);
 
             Assert.Equal(expectedIndexOfError, exception.IndexOfError);
         }

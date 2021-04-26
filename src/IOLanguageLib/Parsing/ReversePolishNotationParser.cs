@@ -33,7 +33,7 @@ namespace IOLanguageLib.Parsing
             {
                 IOperator @operator => CalcWord(@operator),
                 ITerm term => term,
-                _ => throw new UnexpectedCharacter(_index)
+                _ => throw new UnexpectedSymbol(_index)
             };
 
             _stack.Push(word);
@@ -70,12 +70,19 @@ namespace IOLanguageLib.Parsing
 
         private ITerm ToTerm(IWord word, int wordNumber)
         {
-            throw new NotImplementedException();
+            if (word is ITerm term)
+                return term;
+
+            throw new IndexedInputException(_index, $"Operand number {wordNumber} is not term.");
         }
 
-        private static ObjectVariable GetObjectVariable()
+        private ObjectVariable GetObjectVariable()
         {
-            throw new NotImplementedException();
+            var word = GetOperands(1).First();
+            if (word is ObjectVariable variable)
+                return variable;
+
+            throw new UnexpectedSymbol(_index, "Expected object variable.");
         }
 
         private Formula[] GetFormulas(int count)
@@ -87,7 +94,10 @@ namespace IOLanguageLib.Parsing
 
         private Formula ToFormula(IWord word, int wordNumber)
         {
-            throw new NotImplementedException();
+            if (word is Formula formula)
+                return formula;
+
+            throw new IndexedInputException(_index, $"Operand number {wordNumber} is not function.");
         }
 
         private Formula GetFormula()
@@ -122,14 +132,19 @@ namespace IOLanguageLib.Parsing
 
         private Formula GetResultFormula()
         {
-            //TODO обработка ошибок
-            if (_stack.Count == 0)
-                throw new Exception("Empty stack.");
+            switch (_stack.Count)
+            {
+                case 0:
+                    throw new Exception("Empty stack.");
+                case > 1:
+                    throw new UnexpectedEndOfInput("Expected operator.");
+            }
 
-            if (_stack.Count > 1)
-                throw new Exception("Stack contains more then one element.");
+            var word = _stack.Peek();
+            if (word is Formula formula)
+                return formula;
 
-            return (Formula) _stack.Peek();
+            throw new UnexpectedEndOfInput($"Input word is not formula. It is {word.GetType()}");
         }
     }
 }
