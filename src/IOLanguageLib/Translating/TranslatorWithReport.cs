@@ -3,7 +3,7 @@ using System.Linq;
 using System.Transactions;
 using IOLanguageLib.Exceptions;
 using IOLanguageLib.Parsing;
-using IOLanguageLib.PreParsing;
+using IOLanguageLib.Parsing.PreParsing;
 using IOLanguageLib.Tokenizing;
 using LogicLanguageLib.Alphabet;
 using LogicLanguageLib.Words;
@@ -13,13 +13,13 @@ namespace IOLanguageLib.Translating
     //TODO integration tests
     public class TranslatorWithReport : ITranslator
     {
-        private readonly AbstractPreParser[] _abstractPreParsers;
-        private readonly IParser _parser;
+        private readonly PreParser[] _abstractPreParsers;
+        private readonly FormulaParser _parser;
         private readonly IReportWriter _reportWriter;
         private readonly ITokenizer _tokenizer;
 
-        public TranslatorWithReport(IReportWriter reportWriter, ITokenizer tokenizer, IParser parser,
-            params AbstractPreParser[] abstractPreParsers)
+        public TranslatorWithReport(IReportWriter reportWriter, ITokenizer tokenizer, FormulaParser parser,
+            params PreParser[] abstractPreParsers)
         {
             _reportWriter = reportWriter;
             _tokenizer = tokenizer;
@@ -60,14 +60,14 @@ namespace IOLanguageLib.Translating
                 .Aggregate(tokens, PreParse);
         }
 
-        private Symbol[] PreParse(Symbol[] tokens, AbstractPreParser preParser)
+        private Symbol[] PreParse(Symbol[] tokens, PreParser preParser)
         {
             var preParserName = preParser.GetType();
             _reportWriter.WriteLine($"Pre-parse start({preParserName}).");
             try
             {
                 return preParser
-                    .PreParse(tokens)
+                    .Parse(tokens)
                     .ToArray();
             }
             catch (Exception e)

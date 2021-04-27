@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Numerics;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
+using IOLanguageLib.Parsing.Contexts;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.PreParsing
+namespace IOLanguageLib.Parsing.PreParsing
 {
-    public class AdditionalSymbolsPreParser : AbstractPreParser
+    public class AdditionalSymbolsPreParser : PreParser
     {
-        protected override IEnumerable<Symbol> PreParse(PreParsingContext context)
+        public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)
         {
-            while (context.GoRight())
+            var context = new SymbolContextWithNext(input);
+
+            return PreParse(context);
+        }
+
+        private static IEnumerable<Symbol> PreParse(SymbolContextWithNext context)
+        {
+            while (context.MoveNext())
             {
                 var symbol = GetSymbol(context.CurrentSymbol, context);
                 if (symbol is not Space)
@@ -19,7 +27,7 @@ namespace IOLanguageLib.PreParsing
             }
         }
 
-        private static Symbol GetSymbol(Symbol currentSymbol, PreParsingContext context)
+        private static Symbol GetSymbol(Symbol currentSymbol, SymbolContextWithNext context)
         {
             try
             {
@@ -44,12 +52,12 @@ namespace IOLanguageLib.PreParsing
             }
         }
 
-        private static IndividualConstant GetIndividualConstant(PreParsingContext context)
+        private static IndividualConstant GetIndividualConstant(SymbolContextWithNext context)
         {
             return GetInteger(context);
         }
 
-        private static BigInteger GetInteger(PreParsingContext context)
+        private static BigInteger GetInteger(SymbolContextWithNext context)
         {
             if (context.CurrentSymbol is not Digit)
                 throw new UnexpectedSymbol(context.Index, "Expected digit.");
@@ -59,7 +67,7 @@ namespace IOLanguageLib.PreParsing
             var integer = new BigInteger(digit);
             while (context.NextSymbol is Digit)
             {
-                context.GoRight();
+                context.MoveNext();
                 digit = context.CurrentSymbol as Digit;
                 integer = integer * 10 + digit;
             }
@@ -67,12 +75,12 @@ namespace IOLanguageLib.PreParsing
             return integer;
         }
 
-        private static ObjectVariable GetObjectVariable(Letter letter, PreParsingContext context)
+        private static ObjectVariable GetObjectVariable(Letter letter, SymbolContextWithNext context)
         {
             if (context.NextSymbol is not Underlining)
                 return new ObjectVariable(letter);
 
-            if (!context.GoRight() || !context.GoRight())
+            if (!context.MoveNext() || !context.MoveNext())
                 throw new UnexpectedSymbol(context.Index, "Expected index of variable after underlining.");
 
             var integer = GetInteger(context);

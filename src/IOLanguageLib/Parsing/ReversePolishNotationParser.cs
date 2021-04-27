@@ -2,137 +2,136 @@
 using System.Collections.Generic;
 using System.Linq;
 using IOLanguageLib.Exceptions;
+using IOLanguageLib.Parsing.Contexts;
 using LogicLanguageLib.Alphabet;
 using LogicLanguageLib.Words;
 
 namespace IOLanguageLib.Parsing
 {
     //TODO tests
-    public class ReversePolishNotationParser : IParser
+    public class ReversePolishNotationParser : FormulaParser
     {
-        private int _index;
-        private Stack<IWord> _stack;
-
-        public Formula Parse(IEnumerable<Symbol> symbols)
+        public override Formula Parse(IEnumerable<Symbol> input)
         {
-            _stack = new Stack<IWord>();
-            _index = 0;
+            var context = new ReversePolishNotationParserContext(input);
 
-            foreach (var symbol in symbols)
-            {
-                ProcessSymbol(symbol);
-                _index++;
-            }
-
-            return GetResultFormula();
+            return Parse(context);
         }
 
-        private void ProcessSymbol(Symbol symbol)
+        private static Formula Parse(ReversePolishNotationParserContext context)
         {
-            var word = symbol switch
+            while (context.MoveNext())
+                ProcessSymbol(context);
+
+            return GetResultFormula(context);
+        }
+
+        private static void ProcessSymbol(ReversePolishNotationParserContext context)
+        {
+            var word = context.CurrentSymbol switch
             {
-                IOperator @operator => CalcWord(@operator),
+                IOperator @operator => CalcWord(context, @operator),
                 ITerm term => term,
-                _ => throw new UnexpectedSymbol(_index)
+                _ => throw new UnexpectedSymbol(context.Index)
             };
 
-            _stack.Push(word);
+            context.PushWord(word);
         }
 
-        private IWord CalcWord(IOperator @operator)
+        private static IWord CalcWord(ReversePolishNotationParserContext context, IOperator @operator)
         {
             return @operator switch
             {
-                Function function => CalcWord(function),
-                Predicate predicate => CalcWord(predicate),
-                IQuantifier quantifier => CalcWord(quantifier),
-                IPropositionalConnective connective => CalcWord(connective),
+                Function function => CalcWord(context, function),
+                Predicate predicate => CalcWord(context, predicate),
+                IQuantifier quantifier => CalcWord(context, quantifier),
+                IPropositionalConnective connective => CalcWord(context, connective),
                 _ => throw new NotSupportedException()
             };
         }
 
-        private IEnumerable<IWord> GetOperands(int count)
+        private static IEnumerable<IWord> GetOperands(ReversePolishNotationParserContext context, byte count)
         {
-            if (_stack.Count < count)
-                throw new IndexedInputException(_index,
-                    $"Not enough operands. There should be {count} operands, but there are only {_stack.Count}.");
+            if (context.Count < count)
+                throw new IndexedInputException(context.Index,
+                    $"Not enough operands. There should be {count} operands, but there are only {context.Count}.");
 
-            while (count-- > 0)
-                yield return _stack.Pop();
+            return context.PopWords(count).Reverse();
         }
 
-        private ITerm[] GetTerms(int count)
+        private static ITerm[] GetTerms(ReversePolishNotationParserContext context, byte count)
         {
-            return GetOperands(count)
-                .Select(ToTerm)
+            return GetOperands(context, count)
+                .Select((word, wordNumber) => ToTerm(context, word, wordNumber))
                 .ToArray();
         }
 
-        private ITerm ToTerm(IWord word, int wordNumber)
+        private static ITerm ToTerm(SymbolContext context, IWord word, int wordNumber)
         {
             if (word is ITerm term)
                 return term;
 
-            throw new IndexedInputException(_index, $"Operand number {wordNumber} is not term.");
+            throw new IndexedInputException(context.Index, $"Operand number {wordNumber} is not term.");
         }
 
-        private ObjectVariable GetObjectVariable()
+        private static ObjectVariable GetObjectVariable(ReversePolishNotationParserContext context)
         {
-            var word = GetOperands(1).First();
+            var word = GetOperands(context, 1).First();
             if (word is ObjectVariable variable)
                 return variable;
 
-            throw new UnexpectedSymbol(_index, "Expected object variable.");
+            throw new UnexpectedSymbol(context.Index, "Expected object variable.");
         }
 
-        private Formula[] GetFormulas(int count)
+        private static Formula[] GetFormulas(ReversePolishNotationParserContext context, byte count)
         {
-            return GetOperands(count)
-                .Select(ToFormula)
+            return GetOperands(context, count)
+                .Select((word, i) => ToFormula(context, word, i))
                 .ToArray();
         }
 
-        private Formula ToFormula(IWord word, int wordNumber)
+        private static Formula ToFormula(SymbolContext context, IWord word, int wordNumber)
         {
             if (word is Formula formula)
                 return formula;
 
-            throw new IndexedInputException(_index, $"Operand number {wordNumber} is not function.");
+            throw new IndexedInputException(context.Index, $"Operand number {wordNumber} is not function.");
         }
 
-        private Formula GetFormula()
+        private static Formula GetFormula(ReversePolishNotationParserContext context)
         {
-            return GetFormulas(1)[0];
+            return GetFormulas(context, 1)[0];
         }
 
-        private FunctionTerm CalcWord(Function function)
+        private static FunctionTerm CalcWord(ReversePolishNotationParserContext context, Function function)
         {
-            var terms = GetTerms(function.Arity);
+            var terms = GetTerms(context, function.Arity);
             return new FunctionTerm(function, terms);
         }
 
-        private PredicateFormula CalcWord(Predicate predicate)
+        private static PredicateFormula CalcWord(ReversePolishNotationParserContext context, Predicate predicate)
         {
-            var terms = GetTerms(predicate.Arity);
+            var terms = GetTerms(context, predicate.Arity);
             return new PredicateFormula(predicate, terms);
         }
 
-        private QuantifierFormula CalcWord(IQuantifier quantifier)
+        private static QuantifierFormula CalcWord(ReversePolishNotationParserContext context, IQuantifier quantifier)
         {
-            var objectVariable = GetObjectVariable();
-            var formula = GetFormula();
+            var formula = GetFormula(context);
+            var objectVariable = GetObjectVariable(context);
             return new QuantifierFormula(quantifier, objectVariable, formula);
         }
 
-        private PropositionalConnectiveFormula CalcWord(IPropositionalConnective connective)
+        private static PropositionalConnectiveFormula CalcWord(ReversePolishNotationParserContext context,
+            IPropositionalConnective connective)
         {
-            var formulas = GetFormulas(connective.Arity);
+            var formulas = GetFormulas(context, connective.Arity);
             return new PropositionalConnectiveFormula(connective, formulas);
         }
 
-        private Formula GetResultFormula()
+        private static Formula GetResultFormula(ReversePolishNotationParserContext context)
         {
-            switch (_stack.Count)
+            switch (context.Count)
             {
                 case 0:
                     throw new Exception("Empty stack.");
@@ -140,7 +139,7 @@ namespace IOLanguageLib.Parsing
                     throw new UnexpectedEndOfInput("Expected operator.");
             }
 
-            var word = _stack.Peek();
+            var word = context.Peek;
             if (word is Formula formula)
                 return formula;
 

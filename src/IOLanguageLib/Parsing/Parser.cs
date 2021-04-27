@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using LogicLanguageLib.Alphabet;
-using LogicLanguageLib.Words;
 
 namespace IOLanguageLib.Parsing
 {
-    public interface IParser
+    public abstract class Parser<TOut>
     {
-        public Formula Parse(IEnumerable<Symbol> symbols);
+        public abstract TOut Parse(IEnumerable<Symbol> input);
     }
 }

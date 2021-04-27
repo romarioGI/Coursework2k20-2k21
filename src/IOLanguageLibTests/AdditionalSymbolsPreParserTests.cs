@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using IOLanguageLib.Alphabet;
-using IOLanguageLib.PreParsing;
+using IOLanguageLib.Parsing;
+using IOLanguageLib.Parsing.PreParsing;
 using LogicLanguageLib.Alphabet;
 using Xunit;
 
@@ -104,7 +105,7 @@ namespace IOLanguageLibTests
         public void PreParse_CorrectInput(IEnumerable<Symbol> input, IEnumerable<Symbol> expected)
         {
             var preParser = new AdditionalSymbolsPreParser();
-            var actual = preParser.PreParse(input);
+            var actual = preParser.Parse(input);
 
             Assert.Equal(expected.ToArray(), actual.ToArray());
         }

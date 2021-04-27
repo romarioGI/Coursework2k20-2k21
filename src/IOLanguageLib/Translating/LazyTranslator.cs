@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using IOLanguageLib.Parsing;
-using IOLanguageLib.PreParsing;
+using IOLanguageLib.Parsing.PreParsing;
 using IOLanguageLib.Tokenizing;
 using LogicLanguageLib.Alphabet;
 using LogicLanguageLib.Words;
@@ -10,11 +10,11 @@ namespace IOLanguageLib.Translating
 {
     public class LazyTranslator : ITranslator
     {
-        private readonly AbstractPreParser[] _abstractPreParsers;
-        private readonly IParser _parser;
+        private readonly PreParser[] _abstractPreParsers;
+        private readonly FormulaParser _parser;
         private readonly ITokenizer _tokenizer;
 
-        public LazyTranslator(ITokenizer tokenizer, IParser parser, params AbstractPreParser[] abstractPreParsers)
+        public LazyTranslator(ITokenizer tokenizer, FormulaParser parser, params PreParser[] abstractPreParsers)
         {
             _tokenizer = tokenizer;
             _parser = parser;
@@ -41,10 +41,10 @@ namespace IOLanguageLib.Translating
                 .Aggregate(tokens, PreParse);
         }
 
-        private static IEnumerable<Symbol> PreParse(IEnumerable<Symbol> tokens, AbstractPreParser preParser)
+        private static IEnumerable<Symbol> PreParse(IEnumerable<Symbol> tokens, PreParser preParser)
         {
             return preParser
-                .PreParse(tokens);
+                .Parse(tokens);
         }
 
         private Formula Parse(IEnumerable<Symbol> tokens)

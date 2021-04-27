@@ -1,25 +1,33 @@
 ﻿using System.Collections.Generic;
 using IOLanguageLib.Alphabet;
+using IOLanguageLib.Parsing.Contexts;
 using LogicLanguageLib.Alphabet;
 
-namespace IOLanguageLib.PreParsing
+namespace IOLanguageLib.Parsing.PreParsing
 {
     //TODO tests
-    public class MinusPreParser: AbstractPreParser
+    public class MinusPreParser : PreParser
     {
-        protected override IEnumerable<Symbol> PreParse(PreParsingContext context)
+        private static readonly UnaryMinus UnaryMinus = new();
+        private static readonly Subtraction BinaryMinus = new();
+
+        public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)
         {
-            while (context.GoRight())
+            var context = new SymbolContextWithPrevious(input);
+
+            return PreParse(context);
+        }
+
+        private static IEnumerable<Symbol> PreParse(SymbolContextWithPrevious context)
+        {
+            while (context.MoveNext())
             {
                 if (context.CurrentSymbol is Minus)
                     yield return GetMinus(context.PreviousSymbol);
                 yield return context.CurrentSymbol;
             }
         }
-        
-        private static readonly UnaryMinus UnaryMinus = new();
-        private static readonly Subtraction BinaryMinus = new();
-        
+
         private static Symbol GetMinus(Symbol previousSymbol)
         {
             if (previousSymbol is ObjectVariable || previousSymbol is IndividualConstant ||
