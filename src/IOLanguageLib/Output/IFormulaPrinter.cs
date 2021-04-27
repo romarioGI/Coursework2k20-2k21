@@ -1,4 +1,4 @@
-﻿using LogicLanguageLib.Words;
+﻿using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Output
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Transactions;
+using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
 using IOLanguageLib.Parsing;
 using IOLanguageLib.Parsing.PreParsing;
 using IOLanguageLib.Tokenizing;
-using LogicLanguageLib.Alphabet;
-using LogicLanguageLib.Words;
+using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Translating
 {

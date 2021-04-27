@@ -4,7 +4,6 @@ using System.Linq;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Automaton;
 using IOLanguageLib.Exceptions;
-using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Tokenizing
 {

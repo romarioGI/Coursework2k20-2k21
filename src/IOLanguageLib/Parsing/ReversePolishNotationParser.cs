@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
 using IOLanguageLib.Parsing.Contexts;
-using LogicLanguageLib.Alphabet;
-using LogicLanguageLib.Words;
+using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Parsing
 {

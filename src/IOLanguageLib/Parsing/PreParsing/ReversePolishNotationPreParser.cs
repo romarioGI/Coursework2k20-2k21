@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using LogicLanguageLib.Alphabet;
+using IOLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Parsing.PreParsing
 {

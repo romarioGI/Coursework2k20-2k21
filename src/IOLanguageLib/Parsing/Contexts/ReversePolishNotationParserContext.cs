@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using LogicLanguageLib.Alphabet;
-using LogicLanguageLib.Words;
+using IOLanguageLib.Alphabet;
+using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Parsing.Contexts
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using LogicLanguageLib.Alphabet;
+using IOLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Translating
 {

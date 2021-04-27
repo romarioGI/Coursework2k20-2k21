@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Automaton;
-using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Tokenizing
 {

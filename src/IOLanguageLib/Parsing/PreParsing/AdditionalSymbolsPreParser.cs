@@ -4,7 +4,6 @@ using System.Numerics;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
 using IOLanguageLib.Parsing.Contexts;
-using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Parsing.PreParsing
 {

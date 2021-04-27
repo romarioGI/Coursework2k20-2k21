@@ -1,6 +1,5 @@
 using System;
 using System.Numerics;
-using LogicLanguageLib.Alphabet;
 
 namespace IOLanguageLib.Alphabet
 {
@@ -20,7 +19,7 @@ namespace IOLanguageLib.Alphabet
         {
             return byte.Parse(digit.DefaultRepresentation);
         }
-        
+
         public static implicit operator BigInteger(Digit digit)
         {
             return BigInteger.Parse(digit.DefaultRepresentation);
