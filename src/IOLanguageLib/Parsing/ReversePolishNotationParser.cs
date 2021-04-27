@@ -44,8 +44,8 @@ namespace IOLanguageLib.Parsing
             {
                 Function function => CalcWord(context, function),
                 Predicate predicate => CalcWord(context, predicate),
-                IQuantifier quantifier => CalcWord(context, quantifier),
-                IPropositionalConnective connective => CalcWord(context, connective),
+                Quantifier quantifier => CalcWord(context, quantifier),
+                PropositionalConnective connective => CalcWord(context, connective),
                 _ => throw new NotSupportedException()
             };
         }
@@ -115,7 +115,7 @@ namespace IOLanguageLib.Parsing
             return new PredicateFormula(predicate, terms);
         }
 
-        private static QuantifierFormula CalcWord(ReversePolishNotationParserContext context, IQuantifier quantifier)
+        private static QuantifierFormula CalcWord(ReversePolishNotationParserContext context, Quantifier quantifier)
         {
             var formula = GetFormula(context);
             var objectVariable = GetObjectVariable(context);
@@ -123,7 +123,7 @@ namespace IOLanguageLib.Parsing
         }
 
         private static PropositionalConnectiveFormula CalcWord(ReversePolishNotationParserContext context,
-            IPropositionalConnective connective)
+            PropositionalConnective connective)
         {
             var formulas = GetFormulas(context, connective.Arity);
             return new PropositionalConnectiveFormula(connective, formulas);

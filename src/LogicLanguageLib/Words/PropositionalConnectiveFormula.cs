@@ -8,9 +8,9 @@ namespace LogicLanguageLib.Words
     public class PropositionalConnectiveFormula : Formula
     {
         private readonly Formula[] _formulas;
-        public readonly IPropositionalConnective Connective;
+        public readonly PropositionalConnective Connective;
 
-        public PropositionalConnectiveFormula(IPropositionalConnective connective, params Formula[] formulas)
+        public PropositionalConnectiveFormula(PropositionalConnective connective, params Formula[] formulas)
         {
             Connective = connective ?? throw new ArgumentNullException(nameof(connective));
 

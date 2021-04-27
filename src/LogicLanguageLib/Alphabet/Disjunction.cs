@@ -1,9 +1,13 @@
 ﻿namespace LogicLanguageLib.Alphabet
 {
-    public sealed class Disjunction : Symbol, IPropositionalConnective
+    public sealed class Disjunction : PropositionalConnective
     {
         protected override string DefaultRepresentation => "∨";
 
-        public byte Arity => 2;
+        public override byte Arity => 2;
+
+        public override Associativity Associativity => Associativity.Left;
+
+        public override Notation Notation => Notation.Infix;
     }
 }

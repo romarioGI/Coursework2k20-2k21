@@ -16,7 +16,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> PreParse(SymbolContextWithNext context)
         {
             while (context.MoveNext())
-                if (context.CurrentSymbol is LeftBracket && context.NextSymbol is IQuantifier)
+                if (context.CurrentSymbol is LeftBracket && context.NextSymbol is Quantifier)
                 {
                     yield return context.NextSymbol;
                     yield return context.CurrentSymbol;

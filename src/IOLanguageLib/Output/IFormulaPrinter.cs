@@ -4,6 +4,6 @@ namespace IOLanguageLib.Output
 {
     public interface IFormulaPrinter
     {
-        public string ToString(Formula formula);
+        public string Print(Formula formula);
     }
 }

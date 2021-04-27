@@ -1,5 +1,4 @@
 ﻿using System;
-using LogicLanguageLib.Words;
 
 namespace LogicLanguageLib.Alphabet
 {
@@ -7,10 +6,8 @@ namespace LogicLanguageLib.Alphabet
     {
         private readonly string _name;
 
-        protected Function(string name, byte arity)
+        protected Function(string name)
         {
-            Arity = arity;
-
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Function name must not be null or empty");
             _name = name;
@@ -18,6 +15,10 @@ namespace LogicLanguageLib.Alphabet
 
         protected override string DefaultRepresentation => $"f_{_name}_{Arity}";
 
-        public byte Arity { get; }
+        public abstract byte Arity { get; }
+
+        public abstract Associativity Associativity { get; }
+
+        public abstract Notation Notation { get; }
     }
 }

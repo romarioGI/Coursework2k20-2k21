@@ -1,16 +1,13 @@
 ﻿using System;
-using LogicLanguageLib.Words;
 
 namespace LogicLanguageLib.Alphabet
 {
-    public class Predicate : Symbol, IOperator
+    public abstract class Predicate : Symbol, IOperator
     {
         private readonly string _name;
 
-        protected Predicate(string name, byte arity)
+        protected Predicate(string name)
         {
-            Arity = arity;
-
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Predicate name must not be null or empty");
             _name = name;
@@ -18,6 +15,10 @@ namespace LogicLanguageLib.Alphabet
 
         protected override string DefaultRepresentation => $"p_{_name}_{Arity}";
 
-        public byte Arity { get; }
+        public abstract byte Arity { get; }
+
+        public abstract Associativity Associativity { get; }
+
+        public abstract Notation Notation { get; }
     }
 }
