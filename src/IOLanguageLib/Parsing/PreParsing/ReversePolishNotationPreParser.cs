@@ -5,8 +5,6 @@ using IOLanguageLib.Alphabet;
 namespace IOLanguageLib.Parsing.PreParsing
 {
     //TODO test, maybe integration
-    //TODO ввести IInfix, IPrefix and IPostfix для IOperand. Это должно быть на уровне алфавита или на уровне парсера?
-    //TODO можно также ввести ассоциативность (левую правую)
     //TODO определять приоритет операций на уровне алфавита или на уровне парсера?
     public class ReversePolishNotationPreParser : PreParser
     {

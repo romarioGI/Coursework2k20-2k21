@@ -7,30 +7,39 @@ namespace IOLanguageLib.Words
 {
     public class QuantifierFormula : Formula
     {
-        public readonly ObjectVariable ObjectVariable;
-        public readonly Quantifier Quantifier;
-        public readonly Formula SubFormula;
+        private readonly ObjectVariable _objectVariable;
+        private readonly Quantifier _quantifier;
+        private readonly Formula _subFormula;
 
         public QuantifierFormula(Quantifier quantifier, ObjectVariable objectVariable, Formula formula)
         {
-            Quantifier = quantifier ?? throw new ArgumentNullException(nameof(quantifier));
-            ObjectVariable = objectVariable ?? throw new ArgumentNullException(nameof(objectVariable));
-            SubFormula = formula ?? throw new ArgumentNullException(nameof(formula));
+            _quantifier = quantifier ?? throw new ArgumentNullException(nameof(quantifier));
+            _objectVariable = objectVariable ?? throw new ArgumentNullException(nameof(objectVariable));
+            _subFormula = formula ?? throw new ArgumentNullException(nameof(formula));
         }
 
         public override IEnumerable<Formula> SubFormulas
         {
-            get { yield return SubFormula; }
+            get { yield return _subFormula; }
         }
-        
+
         public override IEnumerable<ObjectVariable> FreeObjectVariables
         {
-            get { return SubFormula.FreeObjectVariables.Where(o => !o.Equals(ObjectVariable)); }
+            get { return _subFormula.FreeObjectVariables.Where(o => !o.Equals(_objectVariable)); }
+        }
+
+        public override IEnumerator<Symbol> GetEnumerator()
+        {
+            yield return _quantifier;
+            yield return _objectVariable;
+            yield return new LeftBracket();
+            foreach (var symbol in _subFormula) yield return symbol;
+            yield return new RightBracket();
         }
 
         public override string ToString()
         {
-            return $"({Quantifier}{ObjectVariable}){SubFormula}";
+            return $"({_quantifier}{_objectVariable}){_subFormula}";
         }
     }
 }

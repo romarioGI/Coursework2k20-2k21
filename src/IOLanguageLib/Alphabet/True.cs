@@ -10,6 +10,6 @@
 
         public override Associativity Associativity => Associativity.Left;
         
-        public override Notation Notation => Notation.Function;
+        public override Notation Notation => Notation.Prefix;
     }
 }
