@@ -1,6 +1,6 @@
 ﻿namespace LogicLanguageLib.Words
 {
-    public interface ITerm : IObjectVariablesCollection, IWord
+    public interface ITerm : IWord
     {
     }
 }

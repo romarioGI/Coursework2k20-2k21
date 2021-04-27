@@ -4,7 +4,7 @@ using LogicLanguageLib.Alphabet;
 
 namespace LogicLanguageLib.Words
 {
-    public abstract class Formula : IObjectVariablesCollection, IWord
+    public abstract class Formula : IWord
     {
         public bool IsSentence => !FreeObjectVariables.Any();
 
