@@ -7,19 +7,19 @@ namespace IOLanguageLib.Alphabet
 {
     public sealed class ObjectVariable : Symbol, ITerm
     {
-        private readonly char _char;
-        private readonly uint? _index;
+        public readonly char Char;
+        public readonly uint? Index;
 
         public ObjectVariable(char c, uint? i = null)
         {
             if (!char.IsLetter(c))
                 throw new ArgumentException("c should be letter");
 
-            _char = c;
-            _index = i;
+            Char = c;
+            Index = i;
         }
 
-        protected override string DefaultRepresentation => $"{_char}{(_index is null ? "" : $"_{_index}")}";
+        protected override string DefaultRepresentation => $"{Char}{(Index is null ? "" : $"_{Index}")}";
 
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {

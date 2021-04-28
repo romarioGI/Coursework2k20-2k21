@@ -7,19 +7,19 @@ namespace IOLanguageLib.Alphabet
 {
     public class IndividualConstant : Symbol, ITerm
     {
-        private readonly BigInteger _value;
+        public readonly BigInteger Value;
 
         private IndividualConstant(BigInteger value)
         {
-            _value = value;
+            Value = value;
         }
 
         public IndividualConstant(int value)
         {
-            _value = value;
+            Value = value;
         }
 
-        protected override string DefaultRepresentation => $"c_{_value}";
+        protected override string DefaultRepresentation => $"c_{Value}";
 
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {
@@ -38,7 +38,7 @@ namespace IOLanguageLib.Alphabet
 
         public static implicit operator BigInteger(IndividualConstant constant)
         {
-            return constant._value;
+            return constant.Value;
         }
 
         public static implicit operator IndividualConstant(BigInteger value)

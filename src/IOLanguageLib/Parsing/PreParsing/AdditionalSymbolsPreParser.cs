@@ -58,10 +58,8 @@ namespace IOLanguageLib.Parsing.PreParsing
 
         private static BigInteger GetInteger(SymbolContextWithNext context)
         {
-            if (context.CurrentSymbol is not Digit)
+            if (context.CurrentSymbol is not Digit digit)
                 throw new UnexpectedSymbol(context.Index, "Expected digit.");
-
-            var digit = context.CurrentSymbol as Digit;
 
             var integer = new BigInteger(digit);
             while (context.NextSymbol is Digit)

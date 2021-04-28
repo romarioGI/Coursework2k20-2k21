@@ -27,61 +27,77 @@ namespace IOLanguageLib
             if (@operator.Arity != operands.Length)
                 throw new ArgumentException("Count of operands should be equal operator arity.");
 
-            switch (@operator.Notation)
+            return @operator.Notation switch
             {
-                case Notation.Infix when @operator.Arity == 2:
-                {
-                    foreach (var symbol in operands[0])
-                        yield return symbol;
-                    yield return Space;
-                    yield return @operator;
-                    yield return Space;
-                    foreach (var symbol in operands[1])
-                        yield return symbol;
-                    break;
-                }
-                case Notation.Infix:
-                    throw new NotSupportedException();
-                case Notation.Prefix:
-                {
-                    yield return @operator;
-                    foreach (var operand in operands)
-                    foreach (var symbol in operand)
-                        yield return symbol;
-                    break;
-                }
-                case Notation.Postfix:
-                {
-                    foreach (var operand in operands)
-                    foreach (var symbol in operand)
-                        yield return symbol;
-                    yield return @operator;
-                    break;
-                }
-                case Notation.Function:
-                {
-                    yield return @operator;
-                    yield return LeftBracket;
+                Notation.Infix => ToSymbolsInfixOperator(@operator, operands),
+                Notation.Prefix => ToSymbolsPrefixOperator(@operator, operands),
+                Notation.Postfix => ToSymbolsPostfixOperator(@operator, operands),
+                Notation.Function => ToSymbolsFunctionOperator(@operator, operands),
+                _ => throw new NotSupportedException()
+            };
+        }
 
-                    if (@operator.Arity != 0)
-                    {
-                        foreach (var symbol in operands[0])
-                            yield return symbol;
-                        for (var i = 1; i < operands.Length; i++)
-                        {
-                            yield return Comma;
-                            yield return Space;
-                            foreach (var symbol in operands[i])
-                                yield return symbol;
-                        }
-                    }
-
-                    yield return RightBracket;
-                    break;
-                }
-                default:
-                    throw new NotSupportedException();
+        private static IEnumerable<Symbol> ToSymbolsInfixOperator<T, TW>(T @operator, TW[] operands)
+            where T : Symbol, IOperator
+            where TW : IWord
+        {
+            if (@operator.Arity == 2)
+            {
+                foreach (var symbol in operands[0])
+                    yield return symbol;
+                yield return Space;
+                yield return @operator;
+                yield return Space;
+                foreach (var symbol in operands[1])
+                    yield return symbol;
             }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        private static IEnumerable<Symbol> ToSymbolsPrefixOperator<T, TW>(T @operator, IEnumerable<TW> operands)
+            where T : Symbol, IOperator
+            where TW : IWord
+        {
+            yield return @operator;
+            foreach (var operand in operands)
+            foreach (var symbol in operand)
+                yield return symbol;
+        }
+
+        private static IEnumerable<Symbol> ToSymbolsPostfixOperator<T, TW>(T @operator, IEnumerable<TW> operands)
+            where T : Symbol, IOperator
+            where TW : IWord
+        {
+            foreach (var operand in operands)
+            foreach (var symbol in operand)
+                yield return symbol;
+            yield return @operator;
+        }
+
+        private static IEnumerable<Symbol> ToSymbolsFunctionOperator<T, TW>(T @operator, IReadOnlyList<TW> operands)
+            where T : Symbol, IOperator
+            where TW : IWord
+        {
+            yield return @operator;
+            yield return LeftBracket;
+
+            if (@operator.Arity != 0)
+            {
+                foreach (var symbol in operands[0])
+                    yield return symbol;
+                for (var i = 1; i < operands.Count; i++)
+                {
+                    yield return Comma;
+                    yield return Space;
+                    foreach (var symbol in operands[i])
+                        yield return symbol;
+                }
+            }
+
+            yield return RightBracket;
         }
     }
 }

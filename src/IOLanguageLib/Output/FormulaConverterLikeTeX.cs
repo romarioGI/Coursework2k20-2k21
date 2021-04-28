@@ -1,48 +1,27 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Output
 {
     //TODO test
-    public class FormulaConverterLikeTeX : IFormulaConverter<string>
+    public class FormulaConverterLikeTeX : IConverter<Formula, string>
     {
+        private static readonly FormulaConverterToSymbolsByGrammar FormulaConverter = new();
+        private static readonly SymbolConverterLikeTeX SymbolConverter = new();
+
         public string Convert(Formula formula)
         {
-            return string.Join("", formula
-                .Select(ToString));
+            var symbols = FormulaConverter.Convert(formula);
+            var strings = symbols.Select(ToString);
+            var result = string.Join("", strings);
+
+            return result;
         }
 
         private static string ToString(Symbol symbol)
         {
-            return symbol switch
-            {
-                Addition => "+",
-                Comma => ",",
-                Conjunction => "\\land",
-                Disjunction => "\\lor",
-                Division => "/",
-                EqualityPredicate => "=",
-                ExistentialQuantifier => "\\exists",
-                Exponentiation => "^",
-                False => "FALSE",
-                Implication => "\\to",
-                IndividualConstant => throw new NotImplementedException(),
-                LeftBracket => "(",
-                LessPredicate => "<",
-                MorePredicate => ">",
-                Multiplication => "\\cdot",
-                Negation => "\\lnot",
-                ObjectVariable => throw new NotImplementedException(),
-                RightBracket => ")",
-                Space => " ",
-                Subtraction => "-",
-                True => "TRUE",
-                UnaryMinus => "-",
-                UniversalQuantifier => "\\forall",
-                _ => throw new NotSupportedException()
-            };
+            return SymbolConverter.Convert(symbol);
         }
     }
 }
