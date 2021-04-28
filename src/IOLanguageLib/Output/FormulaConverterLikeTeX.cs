@@ -7,12 +7,12 @@ namespace IOLanguageLib.Output
     //TODO test
     public class FormulaConverterLikeTeX : IConverter<Formula, string>
     {
-        private static readonly FormulaConverterToSymbols FormulaConverter = new();
+        private static readonly ConverterToSymbols Converter = new();
         private static readonly SymbolConverterLikeTeX SymbolConverter = new();
 
         public string Convert(Formula formula)
         {
-            var symbols = FormulaConverter.Convert(formula);
+            var symbols = Converter.Convert(formula);
             var strings = symbols.Select(ToString);
             var result = string.Join("", strings);
 

@@ -6,8 +6,8 @@ using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Output
 {
-    public class FormulaConverterToSymbols : IConverter<Formula, IEnumerable<Symbol>>,
-        IConverter<ITerm, IEnumerable<Symbol>>
+    public class ConverterToSymbols : IConverter<Formula, IEnumerable<Symbol>>,
+        IConverter<ITerm, IEnumerable<Symbol>>, IConverter<IWord, IEnumerable<Symbol>>
     {
         private static readonly Comma Comma = new();
         private static readonly LeftBracket LeftBracket = new();
@@ -16,43 +16,21 @@ namespace IOLanguageLib.Output
 
         public IEnumerable<Symbol> Convert(Formula formula)
         {
-            yield return LeftBracket;
-
-            switch (formula)
+            var res = formula switch
             {
-                case QuantifierFormula quantifierFormula:
-                {
-                    yield return quantifierFormula.Quantifier;
-                    yield return quantifierFormula.ObjectVariable;
+                QuantifierFormula quantifierFormula => OperatorAndOperandsToSymbols(
+                    quantifierFormula.Quantifier,
+                    quantifierFormula.ObjectVariable, quantifierFormula.SubFormula),
+                PropositionalConnectiveFormula propositionalConnectiveFormula => OperatorAndOperandsToSymbols(
+                    propositionalConnectiveFormula.Connective,
+                    propositionalConnectiveFormula.SubFormulas.ToArray<IWord>()),
+                PredicateFormula predicateFormula => OperatorAndOperandsToSymbols(
+                    predicateFormula.Predicate,
+                    predicateFormula.Terms.ToArray<IWord>()),
+                _ => throw new NotSupportedException()
+            };
 
-                    var subFormulaSymbols = Convert(quantifierFormula.SubFormula);
-                    foreach (var symbol in subFormulaSymbols) yield return symbol;
-                    break;
-                }
-                case PropositionalConnectiveFormula propositionalConnectiveFormula:
-                {
-                    var symbolsOfSubFormulas = propositionalConnectiveFormula.SubFormulas.Select(Convert).ToArray();
-                    var symbols = OperatorAndOperandsToSymbols(propositionalConnectiveFormula.Connective,
-                        symbolsOfSubFormulas);
-
-                    foreach (var symbol in symbols)
-                        yield return symbol;
-                    break;
-                }
-                case PredicateFormula predicateFormula:
-                {
-                    var symbolsOfTerms = predicateFormula.Terms.Select(Convert).ToArray();
-                    var symbols = OperatorAndOperandsToSymbols(predicateFormula.Predicate, symbolsOfTerms);
-
-                    foreach (var symbol in symbols)
-                        yield return symbol;
-                    break;
-                }
-                default:
-                    throw new NotSupportedException();
-            }
-
-            yield return RightBracket;
+            return res.Prepend(LeftBracket).Append(RightBracket);
         }
 
         public IEnumerable<Symbol> Convert(ITerm term)
@@ -63,8 +41,9 @@ namespace IOLanguageLib.Output
                 {
                     yield return new LeftBracket();
 
-                    var symbolsOfTerms = functionTerm.Terms.Select(Convert).ToArray();
-                    var symbols = OperatorAndOperandsToSymbols(functionTerm.Function, symbolsOfTerms);
+                    var symbols = OperatorAndOperandsToSymbols(
+                        functionTerm.Function,
+                        functionTerm.Terms.ToArray<IWord>());
 
                     foreach (var symbol in symbols)
                         yield return symbol;
@@ -83,19 +62,33 @@ namespace IOLanguageLib.Output
             }
         }
 
-        private static IEnumerable<Symbol> OperatorAndOperandsToSymbols<T>(T @operator,
-            IReadOnlyList<IEnumerable<Symbol>> operands)
+        public IEnumerable<Symbol> Convert(IWord word)
+        {
+            return word switch
+            {
+                Formula formula => Convert(formula),
+                ITerm term => Convert(term),
+                _ => throw new NotSupportedException()
+            };
+        }
+
+        private IEnumerable<Symbol> OperatorAndOperandsToSymbols<T>(T @operator,
+            params IWord[] operands)
             where T : Symbol, IOperator
         {
-            if (@operator.Arity != operands.Count)
+            if (@operator.Arity != operands.Length)
                 throw new ArgumentException("Count of operands should be equal operator arity.");
+
+            var operandsSymbols = operands
+                .Select(Convert)
+                .ToArray();
 
             return @operator.Notation switch
             {
-                Notation.Infix => ToSymbolsInfixOperator(@operator, operands),
-                Notation.Prefix => ToSymbolsPrefixOperator(@operator, operands),
-                Notation.Postfix => ToSymbolsPostfixOperator(@operator, operands),
-                Notation.Function => ToSymbolsFunctionOperator(@operator, operands),
+                Notation.Infix => ToSymbolsInfixOperator(@operator, operandsSymbols),
+                Notation.Prefix => ToSymbolsPrefixOperator(@operator, operandsSymbols),
+                Notation.Postfix => ToSymbolsPostfixOperator(@operator, operandsSymbols),
+                Notation.Function => ToSymbolsFunctionOperator(@operator, operandsSymbols),
                 _ => throw new NotSupportedException()
             };
         }
