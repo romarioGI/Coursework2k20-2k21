@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using IOLanguageLib.Words;
 
@@ -24,16 +23,6 @@ namespace IOLanguageLib.Alphabet
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { yield return this; }
-        }
-
-        public IEnumerator<Symbol> GetEnumerator()
-        {
-            yield return this;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

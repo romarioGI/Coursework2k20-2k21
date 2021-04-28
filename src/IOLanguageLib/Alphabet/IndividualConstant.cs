@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Numerics;
 using IOLanguageLib.Words;
 
@@ -29,11 +28,6 @@ namespace IOLanguageLib.Alphabet
         public IEnumerator<Symbol> GetEnumerator()
         {
             yield return this;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
 
         public static implicit operator BigInteger(IndividualConstant constant)

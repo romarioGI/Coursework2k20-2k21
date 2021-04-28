@@ -4,7 +4,6 @@ using IOLanguageLib.Parsing.Contexts;
 
 namespace IOLanguageLib.Parsing.PreParsing
 {
-    //TODO tests
     public class MinusPreParser : PreParser
     {
         private static readonly UnaryMinus UnaryMinus = new();
@@ -29,8 +28,7 @@ namespace IOLanguageLib.Parsing.PreParsing
 
         private static Symbol GetMinus(Symbol previousSymbol)
         {
-            if (previousSymbol is ObjectVariable || previousSymbol is IndividualConstant ||
-                previousSymbol is RightBracket)
+            if (previousSymbol is ObjectVariable or IndividualConstant or RightBracket)
                 return BinaryMinus;
             return UnaryMinus;
         }

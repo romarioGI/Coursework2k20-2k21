@@ -7,7 +7,7 @@ namespace IOLanguageLib.Output
     //TODO test
     public class FormulaConverterLikeTeX : IConverter<Formula, string>
     {
-        private static readonly FormulaConverterToSymbolsByGrammar FormulaConverter = new();
+        private static readonly FormulaConverterToSymbols FormulaConverter = new();
         private static readonly SymbolConverterLikeTeX SymbolConverter = new();
 
         public string Convert(Formula formula)
