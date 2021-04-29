@@ -4,7 +4,7 @@ namespace IOLanguageLib.Alphabet
     {
         public abstract byte Arity { get; }
 
-        public abstract Associativity Associativity { get; }
+        public Associativity Associativity => Associativity.Right;
 
         public abstract Notation Notation { get; }
     }
