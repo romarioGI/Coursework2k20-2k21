@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using IOLanguageLib.Alphabet;
 
-namespace IOLanguageLib.Parsing
+namespace IOLanguageLib.Parsing.Contexts
 {
     public class SymbolContext
     {
@@ -18,10 +18,12 @@ namespace IOLanguageLib.Parsing
 
         public int Index { get; private set; }
 
+        public bool IsEnded => CurrentSymbol is null;
+
         public bool MoveNext()
         {
-            ++Index;
             CurrentSymbol = Next();
+            ++Index;
 
             return CurrentSymbol is not null;
         }
