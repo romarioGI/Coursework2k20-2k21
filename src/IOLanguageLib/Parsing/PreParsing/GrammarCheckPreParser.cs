@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using IOLanguageLib.Alphabet;
 using IOLanguageLib.Exceptions;
@@ -7,6 +8,7 @@ using IOLanguageLib.Parsing.Contexts;
 namespace IOLanguageLib.Parsing.PreParsing
 {
     //TODO tests, maybe integration
+    //TODO забыл про возведение в степень
     public class GrammarCheckPreParser : PreParser
     {
         public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)
@@ -55,18 +57,18 @@ namespace IOLanguageLib.Parsing.PreParsing
             context.MoveNext();
         }
 
-        private static void ThrowException(SymbolContext context, string message)
+        private static Exception BuildException(SymbolContext context, string message)
         {
             if (context.IsEnded)
-                throw new UnexpectedEndOfInput(message);
+                return new UnexpectedEndOfInput(message);
 
-            throw new UnexpectedSymbol(context.Index, message);
+            return new UnexpectedSymbol(context.Index, message);
         }
 
         private static IEnumerable<Symbol> ExpectQuantifier(SymbolContext context)
         {
             if (context.CurrentSymbol is not Quantifier)
-                ThrowException(context, "Expected quantifier.");
+                throw BuildException(context, "Expected quantifier.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -74,7 +76,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectObjectVariable(SymbolContext context)
         {
             if (context.CurrentSymbol is not ObjectVariable)
-                ThrowException(context, "Expected object variable.");
+                throw BuildException(context, "Expected object variable.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -82,7 +84,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectPrefixUnaryConnective(SymbolContext context)
         {
             if (context.CurrentSymbol is not PropositionalConnective {Notation: Notation.Prefix, Arity: 1})
-                ThrowException(context, "Expected prefix unary propositional connective.");
+                throw BuildException(context, "Expected prefix unary propositional connective.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -90,7 +92,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectLeftBracket(SymbolContext context)
         {
             if (context.CurrentSymbol is not LeftBracket)
-                ThrowException(context, "Expected left bracket.");
+                throw BuildException(context, "Expected left bracket.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -98,7 +100,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectRightBracket(SymbolContext context)
         {
             if (context.CurrentSymbol is not RightBracket)
-                ThrowException(context, "Expected right bracket.");
+                throw BuildException(context, "Expected right bracket.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -106,7 +108,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectInfixBinaryPredicate(SymbolContext context)
         {
             if (context.CurrentSymbol is not Predicate {Notation: Notation.Infix, Arity: 2})
-                ThrowException(context, "Expected infix binary predicate.");
+                throw BuildException(context, "Expected infix binary predicate.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -131,7 +133,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectIndividualConstant(SymbolContext context)
         {
             if (context.CurrentSymbol is not IndividualConstant)
-                ThrowException(context, "Expected constant.");
+                throw BuildException(context, "Expected constant.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -139,7 +141,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectPrefixUnaryFunction(SymbolContext context)
         {
             if (context.CurrentSymbol is not Function {Notation: Notation.Prefix, Arity: 1})
-                ThrowException(context, "Expected prefix unary function.");
+                throw BuildException(context, "Expected prefix unary function.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -154,7 +156,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectInfixBinaryFunction(SymbolContext context)
         {
             if (context.CurrentSymbol is not Function {Notation: Notation.Infix, Arity: 2})
-                ThrowException(context, "Expected infix binary function.");
+                throw BuildException(context, "Expected infix binary function.");
 
             return ReturnCurrentAndMove(context);
         }
@@ -169,7 +171,7 @@ namespace IOLanguageLib.Parsing.PreParsing
         private static IEnumerable<Symbol> ExpectInfixBinaryConnective(SymbolContext context)
         {
             if (context.CurrentSymbol is not PropositionalConnective {Notation: Notation.Infix, Arity: 2})
-                ThrowException(context, "Expected infix binary propositional connective.");
+                throw BuildException(context, "Expected infix binary propositional connective.");
 
             return ReturnCurrentAndMove(context);
         }

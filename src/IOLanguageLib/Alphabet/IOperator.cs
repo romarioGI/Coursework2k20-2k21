@@ -14,12 +14,12 @@
         Left,
         Right
     }
-
+    
     public enum Notation
     {
-        Infix,
-        Prefix,
+        Function,
         Postfix,
-        Function
+        Prefix,
+        Infix
     }
 }
