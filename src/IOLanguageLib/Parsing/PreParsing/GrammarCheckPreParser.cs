@@ -8,7 +8,6 @@ using IOLanguageLib.Parsing.Contexts;
 namespace IOLanguageLib.Parsing.PreParsing
 {
     //TODO tests, maybe integration
-    //TODO забыл про возведение в степень
     public class GrammarCheckPreParser : PreParser
     {
         public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)
@@ -163,8 +162,11 @@ namespace IOLanguageLib.Parsing.PreParsing
 
         private static IEnumerable<Symbol> ExpectF2(SymbolContext context)
         {
-            return context.IsEnded
-                ? ExpectEpsilon(context)
+            if (context.IsEnded)
+                return ExpectEpsilon(context);
+
+            return context.CurrentSymbol is Exponentiation
+                ? ReturnCurrentAndMove(context).Concat(ExpectIndividualConstant(context))
                 : ExpectInfixBinaryConnective(context).Concat(ExpectF(context));
         }
 
