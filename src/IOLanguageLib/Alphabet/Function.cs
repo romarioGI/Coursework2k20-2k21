@@ -17,8 +17,6 @@ namespace IOLanguageLib.Alphabet
 
         public abstract byte Arity { get; }
 
-        public abstract Associativity Associativity { get; }
-
         public abstract Notation Notation { get; }
     }
 }

@@ -44,9 +44,6 @@ namespace IOLanguageLib.Parsing.PreParsing
         {
             var res = GetPriority(first).CompareTo(GetPriority(second));
 
-            if (res == 0)
-                res = Compare((IOperator) first, second);
-
             return res;
         }
 
@@ -64,15 +61,12 @@ namespace IOLanguageLib.Parsing.PreParsing
 
         private static int Compare(Predicate first, Predicate second)
         {
-            return Compare((IOperator) first, second);
+            return 0;
         }
 
         private static int Compare(PropositionalConnective first, PropositionalConnective second)
         {
             var res = GetPriority(first).CompareTo(GetPriority(second));
-
-            if (res == 0)
-                res = Compare((IOperator) first, second);
 
             return res;
         }
@@ -91,22 +85,6 @@ namespace IOLanguageLib.Parsing.PreParsing
 
         private static int Compare(Quantifier first, Quantifier second)
         {
-            return Compare((IOperator) first, second);
-        }
-
-        private static int Compare(IOperator first, IOperator second)
-        {
-            return Compare(first.Associativity, second.Associativity);
-        }
-
-        private static int Compare(Associativity first, Associativity second)
-        {
-            if (first == Associativity.Left)
-                return -1;
-
-            if (second == Associativity.Right)
-                return 1;
-
             return 0;
         }
     }

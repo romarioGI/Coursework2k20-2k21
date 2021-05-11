@@ -18,7 +18,7 @@ namespace IOLanguageLib.Output
 
             return result;
         }
-        
+
         public string Convert(Symbol symbol)
         {
             return symbol switch

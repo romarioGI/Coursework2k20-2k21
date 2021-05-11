@@ -8,6 +8,7 @@ using IOLanguageLib.Parsing.Contexts;
 namespace IOLanguageLib.Parsing.PreParsing
 {
     //TODO tests, maybe integration
+    //TODO (F) и (T)p2T
     public class GrammarCheckPreParser : PreParser
     {
         public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)

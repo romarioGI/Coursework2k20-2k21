@@ -34,9 +34,7 @@ namespace IOLanguageLib.Parsing.PreParsing
                 {
                     Digit => GetIndividualConstant(context),
                     Letter letter => GetObjectVariable(letter, context),
-                    EmptySymbol => throw new UnexpectedSymbol(context.Index),
-                    ErrorSymbol => throw new UnexpectedSymbol(context.Index),
-                    Underlining => throw new UnexpectedSymbol(context.Index),
+                    EmptySymbol or ErrorSymbol or Underlining => throw new UnexpectedSymbol(context.Index),
                     null => throw new ArgumentNullException(nameof(currentSymbol)),
                     _ => currentSymbol
                 };
@@ -62,11 +60,12 @@ namespace IOLanguageLib.Parsing.PreParsing
                 throw new UnexpectedSymbol(context.Index, "Expected digit.");
 
             var integer = new BigInteger(digit);
+            var ten = new BigInteger(10);
             while (context.NextSymbol is Digit)
             {
                 context.MoveNext();
                 digit = context.CurrentSymbol as Digit;
-                integer = integer * 10 + digit;
+                integer = integer * ten + digit;
             }
 
             return integer;
@@ -83,7 +82,7 @@ namespace IOLanguageLib.Parsing.PreParsing
             var integer = GetInteger(context);
 
             if (integer > uint.MaxValue)
-                throw new UnexpectedSymbol(context.Index, $"Index should be no more then {uint.MaxValue}");
+                throw new UnexpectedSymbol(context.Index, $"Index should be no more then {uint.MaxValue}.");
 
             return new ObjectVariable(letter, (uint) integer);
         }

@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace IOLanguageLib.Exceptions
+﻿namespace IOLanguageLib.Exceptions
 {
-    public class TranslateException: InputException
+    public class TranslateException : InputException
     {
         public TranslateException() : base("Translate exception. See report.")
         {

@@ -16,7 +16,7 @@ namespace IOLanguageLib.Automaton
 
         private IState<TIn, TOut> CurrentState { get; set; }
 
-        private IEnumerable<IState<TIn, TOut>> FinalStates { get; }
+        private HashSet<IState<TIn, TOut>> FinalStates { get; }
 
         public bool InFinalState => FinalStates.Contains(CurrentState);
 

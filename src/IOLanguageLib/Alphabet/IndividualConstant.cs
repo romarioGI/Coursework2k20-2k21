@@ -8,7 +8,7 @@ namespace IOLanguageLib.Alphabet
     {
         public readonly BigInteger Value;
 
-        private IndividualConstant(BigInteger value)
+        public IndividualConstant(BigInteger value)
         {
             Value = value;
         }
@@ -23,11 +23,6 @@ namespace IOLanguageLib.Alphabet
         public IEnumerable<ObjectVariable> FreeObjectVariables
         {
             get { yield break; }
-        }
-
-        public IEnumerator<Symbol> GetEnumerator()
-        {
-            yield return this;
         }
 
         public static implicit operator BigInteger(IndividualConstant constant)

@@ -6,6 +6,7 @@ using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Output
 {
+    //TODO tests maybe integration
     public class ConverterToSymbols : IConverter<Formula, IEnumerable<Symbol>>,
         IConverter<ITerm, IEnumerable<Symbol>>, IConverter<IWord, IEnumerable<Symbol>>
     {
@@ -35,31 +36,16 @@ namespace IOLanguageLib.Output
 
         public IEnumerable<Symbol> Convert(ITerm term)
         {
-            switch (term)
+            return term switch
             {
-                case FunctionTerm functionTerm:
-                {
-                    yield return new LeftBracket();
-
-                    var symbols = OperatorAndOperandsToSymbols(
-                        functionTerm.Function,
-                        functionTerm.Terms.ToArray<IWord>());
-
-                    foreach (var symbol in symbols)
-                        yield return symbol;
-
-                    yield return new RightBracket();
-                    break;
-                }
-                case IndividualConstant individualConstant:
-                    yield return individualConstant;
-                    break;
-                case ObjectVariable objectVariable:
-                    yield return objectVariable;
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
+                FunctionTerm functionTerm => OperatorAndOperandsToSymbols(functionTerm.Function,
+                        functionTerm.Terms.ToArray<IWord>())
+                    .Append(LeftBracket)
+                    .Prepend(RightBracket),
+                IndividualConstant individualConstant => individualConstant.Yield(),
+                ObjectVariable objectVariable => objectVariable.Yield(),
+                _ => throw new NotSupportedException()
+            };
         }
 
         public IEnumerable<Symbol> Convert(IWord word)
@@ -98,39 +84,29 @@ namespace IOLanguageLib.Output
             where T : Symbol, IOperator
         {
             if (@operator.Arity == 2)
-            {
-                foreach (var symbol in operands[0])
-                    yield return symbol;
-                yield return Space;
-                yield return @operator;
-                yield return Space;
-                foreach (var symbol in operands[1])
-                    yield return symbol;
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
+                return operands[0]
+                    .Append(Space)
+                    .Append(@operator)
+                    .Append(Space)
+                    .Concat(operands[1]);
+
+            throw new NotSupportedException();
         }
 
         private static IEnumerable<Symbol> ToSymbolsPrefixOperator<T>(T @operator,
             IEnumerable<IEnumerable<Symbol>> operands)
             where T : Symbol, IOperator
         {
-            yield return @operator;
-            foreach (var operand in operands)
-            foreach (var symbol in operand)
-                yield return symbol;
+            return operands.SelectMany(s => s)
+                .Prepend(@operator);
         }
 
         private static IEnumerable<Symbol> ToSymbolsPostfixOperator<T>(T @operator,
             IEnumerable<IEnumerable<Symbol>> operands)
             where T : Symbol, IOperator
         {
-            foreach (var operand in operands)
-            foreach (var symbol in operand)
-                yield return symbol;
-            yield return @operator;
+            return operands.SelectMany(s => s)
+                .Append(@operator);
         }
 
         private static IEnumerable<Symbol> ToSymbolsFunctionOperator<T>(T @operator,
