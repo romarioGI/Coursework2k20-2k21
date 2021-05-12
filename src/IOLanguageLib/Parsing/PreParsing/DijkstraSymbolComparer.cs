@@ -16,10 +16,10 @@ namespace IOLanguageLib.Parsing.PreParsing
                     Function secondFunction => Compare(firstFunction, secondFunction),
                     _ => throw new NotSupportedException()
                 },
-                Predicate firstPredicate => second switch
+                Predicate => second switch
                 {
                     PropositionalConnective or Quantifier => -1,
-                    Predicate secondPredicate => Compare(firstPredicate, secondPredicate),
+                    Predicate => 0,
                     Function => 1,
                     _ => throw new NotSupportedException()
                 },
@@ -30,9 +30,9 @@ namespace IOLanguageLib.Parsing.PreParsing
                     Function or Predicate => 1,
                     _ => throw new NotSupportedException()
                 },
-                Quantifier firstQuantifier => second switch
+                Quantifier => second switch
                 {
-                    Quantifier secondQuantifier => Compare(firstQuantifier, secondQuantifier),
+                    Quantifier => 0,
                     Function or Predicate or PropositionalConnective => 1,
                     _ => throw new NotSupportedException()
                 },
@@ -59,16 +59,9 @@ namespace IOLanguageLib.Parsing.PreParsing
             };
         }
 
-        private static int Compare(Predicate first, Predicate second)
-        {
-            return 0;
-        }
-
         private static int Compare(PropositionalConnective first, PropositionalConnective second)
         {
-            var res = GetPriority(first).CompareTo(GetPriority(second));
-
-            return res;
+            return GetPriority(first).CompareTo(GetPriority(second));
         }
 
         private static byte GetPriority(PropositionalConnective connective)
@@ -81,11 +74,6 @@ namespace IOLanguageLib.Parsing.PreParsing
                 Implication => 3,
                 _ => throw new NotSupportedException()
             };
-        }
-
-        private static int Compare(Quantifier first, Quantifier second)
-        {
-            return 0;
         }
     }
 }

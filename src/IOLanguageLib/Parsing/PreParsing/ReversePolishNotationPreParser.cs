@@ -33,11 +33,6 @@ namespace IOLanguageLib.Parsing.PreParsing
             }
         }
 
-        private static IEnumerable<Symbol> ReturnCurrent(SymbolContext context)
-        {
-            yield return context.CurrentSymbol;
-        }
-
         private static IEnumerable<Symbol> PushCurrent(SymbolContextWithStack<Symbol> context)
         {
             context.Push(context.CurrentSymbol);
@@ -50,7 +45,7 @@ namespace IOLanguageLib.Parsing.PreParsing
             {
                 LeftBracket => PushCurrent(context),
                 RightBracket => ProcessRightBracket(context),
-                IndividualConstant or ObjectVariable => ReturnCurrent(context),
+                IndividualConstant or ObjectVariable => context.CurrentSymbol.Yield(),
                 _ => ProcessOther(context)
             };
         }
