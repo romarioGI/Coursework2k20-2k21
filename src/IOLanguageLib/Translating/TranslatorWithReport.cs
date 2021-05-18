@@ -11,6 +11,7 @@ using IOLanguageLib.Words;
 namespace IOLanguageLib.Translating
 {
     //TODO integration tests
+    //TODO index of error
     public class TranslatorWithReport : ITranslator
     {
         private readonly PreParser[] _abstractPreParsers;

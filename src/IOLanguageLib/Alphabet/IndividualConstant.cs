@@ -4,7 +4,7 @@ using IOLanguageLib.Words;
 
 namespace IOLanguageLib.Alphabet
 {
-    public class IndividualConstant : Symbol, ITerm
+    public sealed class IndividualConstant : Symbol, ITerm
     {
         public readonly BigInteger Value;
 

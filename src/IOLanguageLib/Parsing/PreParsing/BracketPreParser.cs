@@ -5,7 +5,8 @@ namespace IOLanguageLib.Parsing.PreParsing
 {
     public class BracketPreParser : PreParser
     {
-        //TODO
+        //TODO tests
+        //TODO implementation
         public override IEnumerable<Symbol> Parse(IEnumerable<Symbol> input)
         {
             return input;
