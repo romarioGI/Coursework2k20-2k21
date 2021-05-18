@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOLanguageLibTests", "IOLan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{1FF50274-D21A-47C1-B0DC-B3F36D8800F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IOLib", "IOLib\IOLib.csproj", "{3B49F725-05F3-4817-AAAE-2ED231EDC531}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EB01C09-6F5F-4956-8AE9-BDD103358B4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B49F725-05F3-4817-AAAE-2ED231EDC531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B49F725-05F3-4817-AAAE-2ED231EDC531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B49F725-05F3-4817-AAAE-2ED231EDC531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B49F725-05F3-4817-AAAE-2ED231EDC531}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
