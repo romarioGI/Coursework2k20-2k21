@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
-using IOLib.Input;
 
-namespace IOLib.PrefixTree
+namespace IOLib.Input.PrefixTree
 {
     internal static class PrefixTreeRootFactory
     {
         public static PrefixTreeNode GetInstance(IEnumerable<Lexeme> lexemes)
         {
-            return new PrefixTree(lexemes).Root;
+            return new Input.PrefixTree.PrefixTree(lexemes).Root;
         }
     }
 }

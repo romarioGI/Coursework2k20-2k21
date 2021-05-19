@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using IOLib.Input;
 
-namespace IOLib.PrefixTree
+namespace IOLib.Input.PrefixTree
 {
     internal class PrefixTreeNode
     {

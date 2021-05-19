@@ -17,6 +17,7 @@ namespace IOLib.Input
             yield return new Lexeme(Alphabet.Division, "\\over");
 
             yield return new Lexeme(Alphabet.Multiplication, "*");
+            yield return new Lexeme(Alphabet.Multiplication, "\\cdot");
 
             yield return new Lexeme(Alphabet.Exponentiation, "^");
 

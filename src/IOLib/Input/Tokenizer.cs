@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using IOLib.Exceptions;
-using IOLib.PrefixTree;
+using IOLib.Input.PrefixTree;
 
 namespace IOLib.Input
 {
