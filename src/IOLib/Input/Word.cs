@@ -6,12 +6,18 @@ namespace IOLib.Input
 {
     public class Word : IEnumerable<Token>
     {
-        private readonly IEnumerable<Token> _tokens;
+        private readonly IReadOnlyList<Token> _tokens;
 
         public Word(IEnumerable<Token> tokens)
         {
-            _tokens = tokens;
+            _tokens = tokens.ToList();
         }
+
+        public Token this[int index] => _tokens[index];
+
+        public int Length => _tokens.Count;
+
+        public Token Last => _tokens[^1];
 
         public IEnumerator<Token> GetEnumerator()
         {

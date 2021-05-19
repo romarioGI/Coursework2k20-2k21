@@ -5,16 +5,16 @@ namespace IOLib.Language
 {
     public class ObjectVariable : Term, IEquatable<ObjectVariable>
     {
-        public readonly char Char;
-        public readonly uint? Index;
+        public readonly IndividualConstant Index;
+        public readonly Symbol Letter;
 
-        public ObjectVariable(char c, uint? i = null)
+        public ObjectVariable(Symbol letter, IndividualConstant constant = null)
         {
-            if (!char.IsLetter(c))
-                throw new ArgumentException("Argument c should be letter.");
+            if (!Alphabet.IsLetter(letter))
+                throw new ArgumentException("Symbol must be letter.");
 
-            Char = c;
-            Index = i;
+            Letter = letter;
+            Index = constant;
         }
 
         public override IEnumerable<ObjectVariable> ObjectVariables
@@ -26,12 +26,13 @@ namespace IOLib.Language
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Char == other.Char && Index == other.Index;
+            return Index.Equals(other.Index) && Letter.Equals(other.Letter);
         }
+
 
         public override string ToString()
         {
-            return $"{Char}{(Index is null ? "" : $"_{Index}")}";
+            return $"{Letter}{(Index is null ? "" : $"_{Index}")}";
         }
 
         public override bool Equals(object obj)
@@ -44,7 +45,7 @@ namespace IOLib.Language
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Char, Index);
+            return HashCode.Combine(Index, Letter);
         }
     }
 }

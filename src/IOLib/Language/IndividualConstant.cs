@@ -1,20 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 
 namespace IOLib.Language
 {
-    public sealed class IndividualConstant : Term
+    //TODO протестировать Equal, для переменных тоже
+    public class IndividualConstant : Term, IEquatable<IndividualConstant>
     {
-        public readonly BigInteger Value;
+        private readonly IndividualConstant _constant;
+        private readonly Symbol _digit;
 
-        public IndividualConstant(BigInteger value)
+        public IndividualConstant(Symbol digit, IndividualConstant constant = null)
         {
-            Value = value;
-        }
+            if (!Alphabet.IsDigit(digit))
+                throw new ArgumentException("Symbol must be digit.");
 
-        public IndividualConstant(int value)
-        {
-            Value = value;
+            _digit = digit;
+            _constant = constant;
         }
 
         public override IEnumerable<ObjectVariable> ObjectVariables
@@ -22,24 +25,36 @@ namespace IOLib.Language
             get { yield break; }
         }
 
-        public static implicit operator BigInteger(IndividualConstant constant)
+        private IEnumerable<Symbol> Digits => _constant is not null ? _constant.Digits.Append(_digit) : _digit.Yield();
+
+        public bool Equals(IndividualConstant other)
         {
-            return constant.Value;
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return _digit.Equals(other._digit) && _constant.Equals(other._constant);
         }
 
-        public static implicit operator IndividualConstant(BigInteger value)
+        public BigInteger ToBigInteger()
         {
-            return new(value);
-        }
+            var res = new BigInteger();
+            var ten = new BigInteger(10);
 
-        public static implicit operator IndividualConstant(int value)
-        {
-            return new(value);
+            return Digits.Aggregate(res, (current, digit) => current * ten + BigInteger.Parse(digit.ToString()));
         }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return _constant is null ? _digit.ToString() : $"{_digit}{_constant}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            return ReferenceEquals(this, obj) || obj is IndividualConstant other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_digit, _constant);
         }
     }
 }

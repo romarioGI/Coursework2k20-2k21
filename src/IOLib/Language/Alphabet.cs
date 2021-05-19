@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IOLib.Language
 {
@@ -33,9 +34,13 @@ namespace IOLib.Language
 
         public static readonly Symbol Underlining = new("_");
 
-        public static readonly IReadOnlyDictionary<char, Symbol> Digits = GetDigits();
+        private static readonly IReadOnlyDictionary<char, Symbol> CharToDigits = GetDigits();
 
-        public static readonly IReadOnlyDictionary<char, Symbol> Letters = GetLetters();
+        private static readonly IReadOnlyDictionary<char, Symbol> CharToLetters = GetLetters();
+
+        public static readonly IReadOnlySet<Symbol> Digits = CharToDigits.Values.ToHashSet();
+
+        public static readonly IReadOnlySet<Symbol> Letters = CharToLetters.Values.ToHashSet();
 
         private static Dictionary<char, Symbol> GetDigits()
         {
@@ -51,7 +56,7 @@ namespace IOLib.Language
             if (!char.IsDigit(c))
                 throw new ArgumentException("Character must be digit.");
 
-            return Digits[c];
+            return CharToDigits[c];
         }
 
         private static Dictionary<char, Symbol> GetLetters()
@@ -71,7 +76,17 @@ namespace IOLib.Language
             if (!char.IsLetter(c))
                 throw new ArgumentException("Character must be letter.");
 
-            return Letters[c];
+            return CharToLetters[c];
+        }
+
+        public static bool IsDigit(Symbol symbol)
+        {
+            return Digits.Contains(symbol);
+        }
+
+        public static bool IsLetter(Symbol symbol)
+        {
+            return Letters.Contains(symbol);
         }
     }
 }

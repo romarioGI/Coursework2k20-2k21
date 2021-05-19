@@ -53,11 +53,11 @@ namespace IOLib.Input
 
             yield return new Lexeme(Alphabet.Underlining, "_");
 
-            foreach (var (c, symbol) in Alphabet.Digits)
-                yield return new Lexeme(symbol, c.ToString());
+            foreach (var symbol in Alphabet.Digits)
+                yield return new Lexeme(symbol, symbol.ToString());
 
-            foreach (var (c, symbol) in Alphabet.Letters)
-                yield return new Lexeme(symbol, c.ToString());
+            foreach (var symbol in Alphabet.Letters)
+                yield return new Lexeme(symbol, symbol.ToString());
         }
     }
 }

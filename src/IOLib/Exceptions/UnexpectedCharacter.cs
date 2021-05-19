@@ -1,20 +1,13 @@
 namespace IOLib.Exceptions
 {
-    public class UnexpectedCharacter : IndexedInputException
+    public class UnexpectedCharacter : InputException
     {
+        public readonly int IndexOfError;
+
         public UnexpectedCharacter(int indexOfError, string message = null)
-            : base(indexOfError, GetMessage(message))
+            : base(message)
         {
-        }
-
-        private static string GetMessage(string message)
-        {
-            var result = "Unexpected character.";
-
-            if (message is not null)
-                result = $"{result} {message}";
-
-            return result;
+            IndexOfError = indexOfError;
         }
     }
 }
