@@ -8,12 +8,14 @@ namespace IOLib
 
         public PrefixTreeNode()
         {
-            Symbol = null;
+            Lexeme = null;
         }
 
-        public Symbol Symbol { get; set; }
+        public IReadOnlyDictionary<char, PrefixTreeNode> Children => _children;
 
-        public bool IsFinal => Symbol is not null;
+        public Lexeme Lexeme { get; set; }
+
+        public bool IsFinal => Lexeme is not null;
 
         public PrefixTreeNode Add(char c)
         {
@@ -21,11 +23,6 @@ namespace IOLib
                 _children[c] = new PrefixTreeNode();
 
             return _children[c];
-        }
-
-        public PrefixTreeNode Next(char c)
-        {
-            return _children.ContainsKey(c) ? _children[c] : null;
         }
     }
 }

@@ -12,13 +12,13 @@ namespace IOLib
             Root = new PrefixTreeNode();
 
             foreach (var lexeme in lexemes)
-                Add(lexeme.String, lexeme.Symbol);
+                Add(lexeme);
         }
 
-        private void Add(string s, Symbol symbol)
+        private void Add(Lexeme lexeme)
         {
-            var node = s.Aggregate(Root, (current, c) => current.Add(c));
-            node.Symbol = symbol;
+            var node = lexeme.String.Aggregate(Root, (current, c) => current.Add(c));
+            node.Lexeme = lexeme;
         }
     }
 }

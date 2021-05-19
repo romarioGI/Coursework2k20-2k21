@@ -1,25 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace IOLib
 {
+    //TODO tests
     public class Tokenizer : ITokenizer
     {
+        private readonly PrefixTreeNode _prefixTreeRoot = PrefixTreeRootFactory.GetInstance();
+
         public Word Tokenize(string input)
         {
             return ToWord(ToTokens(ToLexemes(input)));
         }
 
-        private static IEnumerable<Lexeme> ToLexemes(string input)
+        private IEnumerable<Lexeme> ToLexemes(string input)
         {
-            var tree = new PrefixTree(Lexemes.All);
-            var node = tree.Root;
+            var node = _prefixTreeRoot;
             foreach (var c in input)
-            {
-                var nextNode = node.Next(c);
-                if (nextNode is not null)
-                    continue;
-                if(node.IsFinal)
-            }
+                if (node.Children.ContainsKey(c))
+                {
+                    node = node.Children[c];
+                    if (!node.IsFinal)
+                        continue;
+                    yield return node.Lexeme;
+                    node = _prefixTreeRoot;
+                }
+                else
+                {
+                    throw new NotImplementedException("UnexpectedCharException");
+                }
+
+            if (!node.Equals(_prefixTreeRoot))
+                throw new NotImplementedException("UnexpectedEndOfInput");
         }
 
         private static IEnumerable<Token> ToTokens(IEnumerable<Lexeme> lexemes)
