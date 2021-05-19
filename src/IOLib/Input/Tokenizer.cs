@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using IOLib.Exceptions;
+using IOLib.PrefixTree;
 
-namespace IOLib
+namespace IOLib.Input
 {
     public class Tokenizer : ITokenizer
     {

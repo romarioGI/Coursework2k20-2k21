@@ -1,6 +1,7 @@
 ﻿using System;
+using IOLib.Language;
 
-namespace IOLib
+namespace IOLib.Input
 {
     public class Lexeme
     {

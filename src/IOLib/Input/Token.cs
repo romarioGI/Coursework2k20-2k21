@@ -1,4 +1,6 @@
-﻿namespace IOLib
+﻿using IOLib.Language;
+
+namespace IOLib.Input
 {
     public class Token
     {

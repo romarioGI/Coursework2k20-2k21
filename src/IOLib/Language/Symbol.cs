@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IOLib
+namespace IOLib.Language
 {
     public class Symbol : IEquatable<Symbol>
     {

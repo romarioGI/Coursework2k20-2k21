@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IOLib;
+using IOLib.Input;
 using Xunit;
 
 namespace IOLibTests

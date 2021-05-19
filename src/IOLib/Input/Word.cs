@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IOLib
+namespace IOLib.Input
 {
     public class Word : IEnumerable<Token>
     {

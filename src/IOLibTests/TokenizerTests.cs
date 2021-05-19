@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using IOLib;
 using IOLib.Exceptions;
+using IOLib.Input;
+using IOLib.Language;
 using Xunit;
 
 namespace IOLibTests

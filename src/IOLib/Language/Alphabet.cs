@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace IOLib
+namespace IOLib.Language
 {
     public static class Alphabet
     {

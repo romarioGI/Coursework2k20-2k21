@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using IOLib.Language;
 
-namespace IOLib
+namespace IOLib.Input
 {
     public static class Lexemes
     {

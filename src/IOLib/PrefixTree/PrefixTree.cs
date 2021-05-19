@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using IOLib.Input;
 
-namespace IOLib
+namespace IOLib.PrefixTree
 {
     internal class PrefixTree
     {

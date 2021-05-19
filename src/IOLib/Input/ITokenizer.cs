@@ -1,4 +1,4 @@
-﻿namespace IOLib
+﻿namespace IOLib.Input
 {
     public interface ITokenizer
     {
