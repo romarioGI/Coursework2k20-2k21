@@ -26,7 +26,6 @@ namespace IOLib
         public static readonly Symbol ExistentialQuantifier = new("∃");
         public static readonly Symbol UniversalQuantifier = new("∀");
 
-
         public static readonly Symbol Comma = new(",");
         public static readonly Symbol LeftBracket = new("(");
         public static readonly Symbol RightBracket = new(")");
@@ -34,9 +33,9 @@ namespace IOLib
 
         public static readonly Symbol Underlining = new("_");
 
-        private static readonly IReadOnlyDictionary<char, Symbol> Digits = GetDigits();
+        public static readonly IReadOnlyDictionary<char, Symbol> Digits = GetDigits();
 
-        private static readonly IReadOnlyDictionary<char, Symbol> Letters = GetLetters();
+        public static readonly IReadOnlyDictionary<char, Symbol> Letters = GetLetters();
 
         private static Dictionary<char, Symbol> GetDigits()
         {

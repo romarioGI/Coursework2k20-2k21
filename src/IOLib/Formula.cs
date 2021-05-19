@@ -1,6 +1,6 @@
 ﻿namespace IOLib
 {
-    public class Formula
+    public abstract class Formula
     {
         
     }
