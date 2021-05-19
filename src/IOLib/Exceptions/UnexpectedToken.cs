@@ -1,14 +1,12 @@
-﻿using IOLib.Input;
-
-namespace IOLib.Exceptions
+﻿namespace IOLib.Exceptions
 {
     public class UnexpectedToken : InputException
     {
-        public readonly Token Token;
+        public readonly int IndexOfError;
 
-        public UnexpectedToken(Token token, string message = null) : base(message)
+        public UnexpectedToken(int indexOfError, string message = null) : base(message)
         {
-            Token = token;
+            IndexOfError = indexOfError;
         }
     }
 }

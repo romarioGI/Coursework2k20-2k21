@@ -1,7 +1,9 @@
-﻿namespace IOLib.Input
+﻿using System.Collections.Generic;
+
+namespace IOLib.Input
 {
     public interface ITokenizer
     {
-        public Word Tokenize(string input);
+        public IEnumerable<Token> Tokenize(string input);
     }
 }

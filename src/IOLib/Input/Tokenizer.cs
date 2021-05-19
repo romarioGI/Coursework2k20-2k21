@@ -8,9 +8,9 @@ namespace IOLib.Input
     {
         private readonly PrefixTreeNode _prefixTreeRoot = PrefixTreeRootFactory.GetInstance(Lexemes.All);
 
-        public Word Tokenize(string input)
+        public IEnumerable<Token> Tokenize(string input)
         {
-            return ToWord(ToTokens(ToLexemes(input)));
+            return ToTokens(ToLexemes(input));
         }
 
         private IEnumerable<Lexeme> ToLexemes(string input)
@@ -45,11 +45,6 @@ namespace IOLib.Input
                 yield return new Token(lexeme.Symbol, index);
                 index += lexeme.Length;
             }
-        }
-
-        private static Word ToWord(IEnumerable<Token> tokens)
-        {
-            return new(tokens);
         }
     }
 }
