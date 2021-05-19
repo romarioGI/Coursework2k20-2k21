@@ -2,7 +2,6 @@
 
 namespace IOLib
 {
-    //TODO unittest никакая лексема не явялается префиксом другой
     public static class Lexemes
     {
         public static IEnumerable<Lexeme> All => GetAll();

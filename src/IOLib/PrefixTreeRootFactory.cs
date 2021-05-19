@@ -1,11 +1,12 @@
-﻿namespace IOLib
+﻿using System.Collections.Generic;
+
+namespace IOLib
 {
-    //TODO сериализация
     internal static class PrefixTreeRootFactory
     {
-        public static PrefixTreeNode GetInstance()
+        public static PrefixTreeNode GetInstance(IEnumerable<Lexeme> lexemes)
         {
-            return new PrefixTree(Lexemes.All).Root;
+            return new PrefixTree(lexemes).Root;
         }
     }
 }

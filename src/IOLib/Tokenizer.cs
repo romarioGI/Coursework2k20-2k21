@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using IOLib.Exceptions;
 
 namespace IOLib
 {
-    //TODO tests
     public class Tokenizer : ITokenizer
     {
-        private readonly PrefixTreeNode _prefixTreeRoot = PrefixTreeRootFactory.GetInstance();
+        private readonly PrefixTreeNode _prefixTreeRoot = PrefixTreeRootFactory.GetInstance(Lexemes.All);
 
         public Word Tokenize(string input)
         {
@@ -16,7 +15,9 @@ namespace IOLib
         private IEnumerable<Lexeme> ToLexemes(string input)
         {
             var node = _prefixTreeRoot;
-            foreach (var c in input)
+            for (var i = 0; i < input.Length; i++)
+            {
+                var c = input[i];
                 if (node.Children.ContainsKey(c))
                 {
                     node = node.Children[c];
@@ -27,11 +28,12 @@ namespace IOLib
                 }
                 else
                 {
-                    throw new NotImplementedException("UnexpectedCharException");
+                    throw new UnexpectedCharacter(i);
                 }
+            }
 
             if (!node.Equals(_prefixTreeRoot))
-                throw new NotImplementedException("UnexpectedEndOfInput");
+                throw new UnexpectedEndOfInput();
         }
 
         private static IEnumerable<Token> ToTokens(IEnumerable<Lexeme> lexemes)

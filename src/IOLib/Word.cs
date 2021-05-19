@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IOLib
 {
@@ -20,6 +21,11 @@ namespace IOLib
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return string.Join("", _tokens.Select(t => t.ToString()));
         }
     }
 }

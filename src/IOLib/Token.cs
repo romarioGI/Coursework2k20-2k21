@@ -2,13 +2,18 @@
 {
     public class Token
     {
-        private readonly int _index;
-        private readonly Symbol _symbol;
+        public readonly int Index;
+        public readonly Symbol Symbol;
 
         public Token(Symbol symbol, int index)
         {
-            _symbol = symbol;
-            _index = index;
+            Symbol = symbol;
+            Index = index;
+        }
+
+        public override string ToString()
+        {
+            return Symbol.ToString();
         }
     }
 }
